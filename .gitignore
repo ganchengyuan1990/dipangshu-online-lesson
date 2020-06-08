@@ -25,3 +25,4 @@ yarn-error.log*
 # upload
 /server/upload/*
 /server/output/*
+package-lock.json
