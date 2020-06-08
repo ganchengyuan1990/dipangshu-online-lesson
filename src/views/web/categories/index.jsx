@@ -75,3 +75,35 @@ function Categories(props) {
 }
 
 export default Categories
+
+// function ProfilePage(props) {
+//   const showMessage = () => {
+//     alert('Followed ' + props.user)
+//   }
+
+//   const handleClick = () => {
+//     setTimeout(showMessage, 3000)
+//   }
+
+//   return (
+//     <button onClick={handleClick}>Follow</button>
+//   )
+// }
+
+// export default ProfilePage
+
+// class ProfilePage extends React.Component {
+//   showMessage() {
+//     alert('Followed ' + this.props.user)
+//   }
+
+//   handleClick() {
+//     setTimeout(this.showMessage.bind(this), 3000)
+//   }
+
+//   render() {
+//     return <button onClick={this.handleClick.bind(this)}>Follow</button>
+//   }
+// }
+
+// export default ProfilePage
