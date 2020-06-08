@@ -10,26 +10,26 @@ import './index.less'
 const { Step } = Steps
 
 function Lesson(props) {
-  let isBuyed = false
-  useMount(() => {
-    axios
-      .get('https://www.coffeebeats.cn/getPinOrdersByOnlinelessonid', {
-        params: {
-          openid: userInfo ? JSON.parse(userInfo).openid : '',
-          online_lesson_id: props.match.params.id
-        }
-      })
-      .then(response => {
-        if (response.resultLists.length > 0) {
-          isBuyed = true
-        } else {
-          Message.error('您未购买该课程！')
-          setTimeout(() => {
-            window.history.back(-1)
-          }, 2500)
-        }
-      })
-  })
+  // let isBuyed = false
+  // useMount(() => {
+  //   axios
+  //     .get('https://www.coffeebeats.cn/getPinOrdersByOnlinelessonid', {
+  //       params: {
+  //         openid: userInfo ? JSON.parse(userInfo).openid : '',
+  //         online_lesson_id: props.match.params.id
+  //       }
+  //     })
+  //     .then(response => {
+  //       if (response.resultLists.length > 0) {
+  //         isBuyed = true
+  //       } else {
+  //         Message.error('您未购买该课程！')
+  //         setTimeout(() => {
+  //           window.history.back(-1)
+  //         }, 2500)
+  //       }
+  //     })
+  // })
   const defaultRadio = 0
   const [radio, setRadio] = useState(defaultRadio)
   const [chosenFlag, setChosenFlag] = useState(false)
@@ -38,18 +38,20 @@ function Lesson(props) {
   const [title, setTitle] = useState('')
   const userInfo = window.localStorage.getItem('onlineUser')
 
+  const dataList = JSON.parse(window.localStorage.getItem('sectionContent'))
+
   const onChange = e => {
     console.log(e.target.value, processIndex, chosenFlag)
     setChosenFlag(true)
     setRadio(e.target.value)
   }
-  const { dataList } = useFetchDetail({
-    withLoading: false,
-    requestUrl: 'https://www.coffeebeats.cn/getOnlineLessonTitleByName',
-    queryParams: {
-      name: props.match.params.id
-    }
-  })
+  // const { dataList } = useFetchDetail({
+  //   withLoading: false,
+  //   requestUrl: 'https://www.coffeebeats.cn/getOnlineLessonTitleByName',
+  //   queryParams: {
+  //     name: props.match.params.id
+  //   }
+  // })
 
   // console.log(dataList, 777)
 
@@ -71,9 +73,7 @@ function Lesson(props) {
 
   const onButtonClick = (item, index) => {
     if (true) {
-      // props.history.push(`/dipangshu-online/lesson/${item.id}?cat=${item.id}`)
-      props.history.push(`/dipangshu-online/sections/${item.id}?cat=${item.id}`)
-      window.localStorage.setItem('sectionContent', JSON.stringify(dataList[index].content))
+      props.history.push(`/dipangshu-online/lesson/${props.match.params.id}?cat=${index}`)
     } else {
       setShowModal(true)
       setCurrentIndex(item)
@@ -93,9 +93,9 @@ function Lesson(props) {
 
   return (
     <div className='steps_wrapper'>
-      <Steps direction='vertical' current={current}>
+      <Steps direction='vertical'>
         {dataList && dataList.map((item, index) => (
-          <Step title={item.lesson_name} data-index={index} onClick={onButtonClick.bind(this, item, index)}/>
+          <Step title={item.name} data-index={index} onClick={onButtonClick.bind(this, item, index)}/>
         ))}
       </Steps>
       <Modal

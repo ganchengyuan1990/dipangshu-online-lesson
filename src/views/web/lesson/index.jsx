@@ -2,37 +2,37 @@ import React, { useReducer, useState } from 'react'
 import useMount from '@/hooks/useMount'
 import { Button, Alert, Radio, Message } from 'antd'
 import { ANNOUNCEMENT } from '@/config'
-import useFetchDetail from '@/hooks/useFetchDetail'
+import useFetchLesson from '@/hooks/useFetchLesson'
 import { withRouter } from 'react-router-dom'
 import axios from '@/utils/axios'
 
 function Lesson(props) {
-  let isBuyed = false
+  // let isBuyed = false
   useMount(() => {
-    axios
-      .get('https://www.coffeebeats.cn/getPinOrdersByOnlinelessonid', {
-        params: {
-          openid: userInfo ? JSON.parse(userInfo).openid : '',
-          online_lesson_id: props.match.params.id,
-        }
-      })
-      .then(response => {
-        if (response.resultLists.length > 0) {
-          isBuyed = true
-          setTimeout(() => {
-            var ele = document.querySelector('.app-main')
-            if (!ele) {
-              return
-            }
-            ele.scrollTop = ele.scrollHeight
-          }, 200)
-        } else {
-          Message.error('您未购买该课程！')
-          setTimeout(() => {
-            window.history.back(-1)
-          }, 2500)
-        }
-      })
+    // axios
+    //   .get('https://www.coffeebeats.cn/getPinOrdersByOnlinelessonid', {
+    //     params: {
+    //       openid: userInfo ? JSON.parse(userInfo).openid : '',
+    //       online_lesson_id: props.match.params.id,
+    //     }
+    //   })
+    //   .then(response => {
+    //     if (response.resultLists.length > 0) {
+    //       isBuyed = true
+    //       setTimeout(() => {
+    //         var ele = document.querySelector('.app-main')
+    //         if (!ele) {
+    //           return
+    //         }
+    //         ele.scrollTop = ele.scrollHeight
+    //       }, 200)
+    //     } else {
+    //       Message.error('您未购买该课程！')
+    //       setTimeout(() => {
+    //         window.history.back(-1)
+    //       }, 2500)
+    //     }
+    //   })
   })
   const defaultRadio = 0
   const [radio, setRadio] = useState(defaultRadio)
@@ -59,9 +59,9 @@ function Lesson(props) {
     console.log(e)
   }
 
-  const { dataList } = useFetchDetail({
+  const { dataList } = useFetchLesson({
     withLoading: false,
-    requestUrl: 'https://www.coffeebeats.cn/getOnlineLessonStepsById',
+    requestUrl: 'https://www.coffeebeats.cn/getOnlineLessonById',
     queryParams: {
       id: props.match.params.id,
       catIndex: catIndex,

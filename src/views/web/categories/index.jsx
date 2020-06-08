@@ -27,14 +27,14 @@ function Categories(props) {
         }))
         setOpenId(_param)
       } else {
-        alert(_param, 'try')
+        // alert(_param, 'try')
         if (!userInfo || !window.localStorage.getItem('openid')) {
           // props.history.push('/dipangshu-online/login')
         }
       }
     } catch (e) {
       console.log(e)
-      alert(e, 'catch')
+      // alert(e, 'catch')
       if (window.localStorage.getItem('openid')) {
       } else {
         // props.history.push('/dipangshu-online/login')
@@ -52,9 +52,10 @@ function Categories(props) {
   })
 
   const onClick = e => {
-    const id = e.target.getAttribute('data-id')
-    console.log(id, 999)
-    props.history.push(`/dipangshu-online/steps/${id}`)
+    // const id = e.target.getAttribute('data-id')
+    const title = e.target.getAttribute('data-title')
+    console.log(title, 999)
+    props.history.push(`/dipangshu-online/steps/${title}`)
     window.localStorage.setItem('currentLessonVersion', e.target.getAttribute('data-version'))
   }
 
@@ -65,8 +66,8 @@ function Categories(props) {
 
       <div className='categories-list'>
         {dataList.map((item, i) => (
-          <div count={item.count} className='lesson_item' key={item.id} data-id={item.id} data-version={item.version} onClick={ onClick }>
-            <span data-id={item.id}>{item.lesson_name}</span>
+          <div count={item.count} className='lesson_item' key={item.id} data-id={item.id} data-title={item.lesson_title} data-version={item.version} onClick={ onClick }>
+            <span data-id={item.id} data-title={item.lesson_title}>{item.lesson_title}</span>
           </div>
         ))}
       </div>

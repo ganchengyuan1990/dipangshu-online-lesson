@@ -12,7 +12,7 @@ import useMount from './useMount'
  * withLoading 是否携带 loading
  * fetchDependence 依赖 => 可以根据地址栏解析拉取列表
  */
-export default function useFetchDetail({
+export default function useFetchLesson({
   requestUrl = '',
   queryParams = null,
   withLoading = true,
@@ -61,8 +61,9 @@ export default function useFetchDetail({
         pagination.current = parseInt(requestParams.page || 0)
         pagination.pageSize = parseInt(requestParams.pageSize || 20)
         setPagination({ ...pagination })
-        const content = response.result
-        setDataList(content)
+        const content = response.result.content
+        console.log(content[parseInt(queryParams.catIndex) || 0].content, 'parseInt(queryParams.catIndex)')
+        setDataList(content[parseInt(queryParams.catIndex) || 0].content)
         // if (window.localStorage) {
         //   const historyData = window.localStorage.getItem('historyData')
         //   if (!historyData || historyData === '[]') {

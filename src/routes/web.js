@@ -8,6 +8,7 @@ import List from '@/views/web/tag'
 import Lesson from '@/views/web/lesson'
 import About from '@/views/web/about'
 import Steps from '@/views/web/steps'
+import Sections from '@/views/web/sections'
 
 import lazy from '@/components/Lazy'
 const PageNotFound = lazy(() => import('@/components/404'))
@@ -27,6 +28,7 @@ export default {
     { path: '/dipangshu-online/github', component: GITHUB.enable && GithubLogining },
     { path: '/dipangshu-online/login', component: About },
     { path: '/dipangshu-online/steps/:id', component: Steps },
+    { path: '/dipangshu-online/sections/:id', component: Sections },
     { path: '/dipangshu-online/lesson/:id', component: Lesson },
     { path: '/dipangshu-online/*', component: Categories }
   ]
