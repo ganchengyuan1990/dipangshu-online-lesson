@@ -9,6 +9,15 @@ import axios from '@/utils/axios'
 function Lesson(props) {
   // let isBuyed = false
   useMount(() => {
+    try {
+      const search = props.location.search
+      const _array = search.split('?')
+      const _value = _array[1]
+      const _param = _value.split('=')[1]
+      setCatIndex(_param)
+    } catch (e) {
+      console.log(e)
+    }
     // axios
     //   .get('https://www.coffeebeats.cn/getPinOrdersByOnlinelessonid', {
     //     params: {
@@ -49,24 +58,16 @@ function Lesson(props) {
     setRadio(e.target.value)
   }
 
-  try {
-    const search = props.location.search
-    const _array = search.split('?')
-    const _value = _array[1]
-    const _param = _value.split('=')[1]
-    setCatIndex(_param)
-  } catch (e) {
-    console.log(e)
-  }
-
   const { dataList } = useFetchLesson({
     withLoading: false,
     requestUrl: 'https://www.coffeebeats.cn/getOnlineLessonById',
     queryParams: {
       id: props.match.params.id,
-      catIndex: catIndex,
+      catIndex: window.location.href.split('=')[1],
     }
   })
+
+  // const dataList = []
 
   const [dataListNo, setDataList] = useState(dataList)
 
@@ -103,7 +104,7 @@ function Lesson(props) {
     }
     const historyData = {
       id: props.match.params.id,
-      catIndex: catIndex,
+      // catIndex: catIndex,
       version: window.localStorage.getItem('currentLessonVersion') || '1',
       dataList: dataList,
       classOver: classOver,
@@ -126,14 +127,8 @@ function Lesson(props) {
 
   return (
     <div>
-      {/* {(ipadScreen || iphoneScreen) && ANNOUNCEMENT.enable && (
-        <Alert message={ANNOUNCEMENT.content} type='info' style={{ marginTop: iphoneScreen ? 20 : 0, marginBottom: ipadScreen ? 20 : 0 }} />
-      )} */}
-      {userInfo && userInfo.user_name && <div>欢迎{userInfo.user_name}登录</div>}
-      {props.children}
-      {/* {list && list.map((item, index) => (
-        item.shown && <div key={index} className='show_words'>{item.name}</div>
-      ))} */}
+      {/* {userInfo && userInfo.user_name && <div>欢迎{userInfo.user_name}登录</div>}
+      {props.children} */}
       {dataList && dataList.map((item, index) => (
         item.shown && (item.type === 1 ? <div key={index} className='show_words'>{item.value}</div>
           : item.type === 2 ? <img key={index} className='show_pics' src={item.value}></img>
@@ -147,14 +142,7 @@ function Lesson(props) {
               </div>)
       ))}
       <div>
-        {/* <Radio.Group onChange={onChange} value={radio} buttonStyle='solid'>
-          <Radio.Button value={1}>木尺木尺木尺木尺木尺木尺木尺木尺木尺木尺木尺木尺木尺</Radio.Button>
-          <Radio.Button value={2}>木尺木尺木尺</Radio.Button>
-          <Radio.Button value={3}>木尺木尺木尺木尺木尺木尺木尺木尺木尺木尺</Radio.Button>
-          <Radio.Button value={4}>木尺木尺木尺木尺木尺</Radio.Button>
-        </Radio.Group> */}
       </div>
-      {/* <div>{count}</div> */}
       <div type='primary' onClick={onButtonClick} className='button-bottom'>
         <img src='https://www.coffeebeats.cn/uploads/1585553433162-huiche2.png' />
       </div>

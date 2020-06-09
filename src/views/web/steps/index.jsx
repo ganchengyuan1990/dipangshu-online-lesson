@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react'
 import useMount from '@/hooks/useMount'
-import { Button, Steps, Modal, Message } from 'antd'
+import { Button, Steps, Modal, Message, Tree } from 'antd'
 import { ANNOUNCEMENT } from '@/config'
 import useFetchDetail from '@/hooks/useFetchDetail'
 import { withRouter } from 'react-router-dom'
@@ -8,6 +8,7 @@ import axios from '@/utils/axios'
 import './index.less'
 
 const { Step } = Steps
+const { TreeNode } = Tree
 
 function Lesson(props) {
   let isBuyed = false
@@ -71,9 +72,10 @@ function Lesson(props) {
 
   const onButtonClick = (item, index) => {
     if (true) {
-      // props.history.push(`/dipangshu-online/lesson/${item.id}?cat=${item.id}`)
-      props.history.push(`/dipangshu-online/sections/${item.id}?cat=${item.id}`)
-      window.localStorage.setItem('sectionContent', JSON.stringify(dataList[index].content))
+      props.history.push(`/dipangshu-online/lesson/${item.id}?cat=${index}`)
+      // props.history.push(`/dipangshu-online/sections/${item.id}?cat=${item.id}`)
+      // debugger
+      // window.localStorage.setItem('sectionContent', JSON.stringify(item[index].content))
     } else {
       setShowModal(true)
       setCurrentIndex(item)
@@ -93,11 +95,35 @@ function Lesson(props) {
 
   return (
     <div className='steps_wrapper'>
-      <Steps direction='vertical' current={current}>
+      {/* <Steps direction='vertical' current={current}>
         {dataList && dataList.map((item, index) => (
           <Step title={item.lesson_name} data-index={index} onClick={onButtonClick.bind(this, item, index)}/>
         ))}
-      </Steps>
+      </Steps> */}
+      {dataList && dataList.map((item, index) => (
+        <div title={item.lesson_name} key={index} className='tree-parent'>
+          {item.lesson_name}
+          {item.content && item.content.map((ele, idx) => (
+            <div title={ele.name} key={index + '-' + idx} data-index={index} onClick={onButtonClick.bind(this, item, idx)} className='tree-node'>
+              {ele.name}
+            </div>
+          ))}
+        </div>
+      ))}
+      {/* <Tree
+        showLine
+        defaultExpandAll={true}
+        defaultExpandedKeys={['0-0-0']}
+      >
+        {dataList && dataList.map((item, index) => (
+          <TreeNode title={item.lesson_name} key={index} data-index={index} onClick={onButtonClick.bind(this, item, index)}>
+            {item.content && item.content.map((ele, idx) => (
+              <TreeNode title={ele.name} key={index + '-' + idx}>
+              </TreeNode>
+            ))}
+          </TreeNode>
+        ))}
+      </Tree> */}
       <Modal
         title='进度提示'
         visible={showModal}
