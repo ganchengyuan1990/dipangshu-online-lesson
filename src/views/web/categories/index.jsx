@@ -29,7 +29,7 @@ function Categories(props) {
       } else {
         // alert(_param, 'try')
         if (!userInfo || !window.localStorage.getItem('openid')) {
-          // props.history.push('/dipangshu-online/login')
+          props.history.push('/dipangshu-online/login')
         }
       }
     } catch (e) {
@@ -37,7 +37,7 @@ function Categories(props) {
       // alert(e, 'catch')
       if (window.localStorage.getItem('openid')) {
       } else {
-        // props.history.push('/dipangshu-online/login')
+        props.history.push('/dipangshu-online/login')
       }
     }
   })
