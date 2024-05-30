@@ -73,7 +73,7 @@ function Lesson(props) {
 
   const onButtonClick = (item, index) => {
     if (true) {
-      props.history.push(`/dipangshu-online/lesson/${props.match.params.id}?cat=${index}`)
+      props.history.push(`/lesson/${props.match.params.id}?cat=${index}`)
     } else {
       setShowModal(true)
       setCurrentIndex(item)
@@ -83,7 +83,7 @@ function Lesson(props) {
   const handleOk = e => {
     console.log(e)
     setShowModal(false)
-    props.history.push(`/dipangshu-online/lesson/${props.match.params.id}?cat=${currentIndex}`)
+    props.history.push(`/lesson/${props.match.params.id}?cat=${currentIndex}`)
   }
 
   const handleCancel = e => {

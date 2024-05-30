@@ -6,7 +6,7 @@ import { DISCUSS_AVATAR } from '@/config'
 
 // components
 import Href from '@/components/Href'
-import { Avatar, Popover, Icon, Typography } from 'antd'
+import { Popover, Icon, Typography } from 'antd'
 import SvgIcon from '@/components/SvgIcon'
 
 const { Text, Title } = Typography
@@ -15,7 +15,8 @@ function AvatarComponent({ username, github, role }) {
   let avatarSrc = ''
   if (github && github.avatar_url) avatarSrc = github.avatar_url
   if (role === 1) avatarSrc = DISCUSS_AVATAR
-  return <Avatar src={avatarSrc}>{username}</Avatar>
+  // return <Avatar src={avatarSrc}>{username}</Avatar>
+  return null
 }
 //
 function AppAvatar(props) {

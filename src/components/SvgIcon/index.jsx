@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 // iconfont svg
 const SvgIcon = props => {
   return (
+    null
     // <svg className={`svg-icon ${props.className}`} aria-hidden='true' style={props.style}>
     //   <use xlinkHref={`#${props.type}`} />
     // </svg>
-    <img src='https://www.coffeebeats.cn/uploads/logo_small.jpg' style={{ height: 30, width: 30 }}/>
+    // <img src='https://www.coffeebeats.cn/uploads/logo_small.jpg' style={{ height: 30, width: 30 }}/>
   )
 }
 

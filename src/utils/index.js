@@ -14,7 +14,7 @@ export const translateMarkdown = (plainText, isGuardXss = false) => {
     breaks: true,
     smartLists: true,
     smartypants: true,
-    highlight: function(code) {
+    highlight: function (code) {
       /*eslint no-undef: "off"*/
       return hljs.highlightAuto(code).value
     }
@@ -95,11 +95,11 @@ export function RandomId(len) {
  */
 export function debounce(func, wait) {
   let timer = null
-  return function() {
+  return function () {
     const context = this
     const args = arguments
     clearTimeout(timer)
-    timer = setTimeout(function() {
+    timer = setTimeout(function () {
       func.apply(context, args)
     }, wait)
   }
@@ -112,4 +112,22 @@ export function genertorColor(list = [], colorList = COLOR_LIST) {
     l.color = colorList[i] || colorList[randomIndex(colorList)]
   })
   return _list
+}
+
+export const wait = async (time, func) => {
+  return new Promise(function (resolve, reject) {
+    setTimeout(() => {
+      if (func) {
+        resolve()
+      }
+    }, time)
+  })
+}
+
+export function getSkillPromise (value) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(value)
+    }, 3000)
+  })
 }

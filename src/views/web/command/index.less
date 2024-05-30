@@ -1,4 +1,31 @@
+
+  
+  .ant-table-tbody {
+    .finished {
+      background: rgba(100, 200, 100, 0.5)
+    }
+  }
+  
+  .steps_wrapper {
+    
+    // :global {
+    //   .ant-table-thead > tr, .ant-table-tbody > tr {
+    //     &.finished {
+    //       background: rgba(100, 200, 100, 0.5)
+    //     }
+    //   }
+    // }
+    .ant-table-thead > tr, .ant-table-tbody > tr {
+      &.finshed {
+        background: rgba(100, 200, 100, 0.5)
+      }
+    }
+  }
+
+
 .app-article {
+
+
   min-height: 10vh;
   .post-header {
     text-align: center;
@@ -62,37 +89,21 @@
     }
   }
 }
-
-
-.wrapper {
-  display: flex;
-  margin-left: 24px;
-
-  .caozuolan {
-    width: 400px;
-  }
+.steps_wrapper {
+  margin-top: 30px;
 }
 
-.loadingWrapper {
-  position: fixed;
-  top: 0rem;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  background: rgba(0, 0, 0, 0.25);
-  z-index: 10000;
-  padding-top: 500px;
-  padding-left: 50%;
+.tree-node {
+  margin-left: 20px;
+  font-size: 16px;
+  color: #999;
+  margin-bottom: 4px;
 }
 
-.video-react {
-  width: 75% !important;
-}
-
-.aiImg {
-  background-image:  url(https://cdn.coffeebeats.cn/nihao/ai.png-smaller);
-  background-size: contain;
-  width: 250px;
-  height: 250px;
-  background-repeat: no-repeat;
+.tree-parent {
+  margin-left: 0px;
+  font-size: 18px;
+  color: #333;
+  font-weight: 500;
+  margin-bottom: 12px;
 }

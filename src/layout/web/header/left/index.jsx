@@ -36,10 +36,25 @@ const HeaderLeft = props => {
     <Menu className='header-nav'>
       {navList.map(nav => (
         <Menu.Item key={nav.link}>
-          <Link to={nav.link}>
-            {nav.icon && <Icon type={nav.icon} style={{ marginRight: 15 }} />}
+          { nav.link ? <Link to={nav.link}>
+            {nav.icon && <Icon type={nav.icon} style={{ marginRight: 15 }} onClick={() => {
+              window.localStorage.setItem('onlineUser', '')
+              window.localStorage.setItem('wechatUser', true)
+              window.sessionStorage.setItem('userInfo', null)
+              // window.history.back(-1)
+              window.location.reload()
+            }}/>}
             <span className='nav-text'>{nav.title}</span>
-          </Link>
+          </Link> : <div>
+            <Icon type={nav.icon} style={{ marginRight: 15 }} />
+            <span className='nav-text' onClick={() => {
+              window.localStorage.setItem('onlineUser', '')
+              window.localStorage.setItem('wechatUser', true)
+              window.sessionStorage.setItem('userInfo', null)
+              // window.history.back(-1)
+              window.location.reload()
+            }}>{nav.title}</span>
+          </div> }
         </Menu.Item>
       ))}
       <Menu.Item key={'search'}>

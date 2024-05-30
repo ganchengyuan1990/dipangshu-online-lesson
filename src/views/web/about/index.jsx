@@ -23,7 +23,7 @@ function About(props) {
   useEffect(() => {
     const userInfo = window.localStorage.getItem('onlineUser')
     if (userInfo) {
-      props.history.push('/dipangshu-online/categories')
+      props.history.push('/categories')
     }
     const onlineStatusInterval = setInterval(() => {
       axios
@@ -35,7 +35,7 @@ function About(props) {
             window.localStorage.setItem('onlineUser', JSON.stringify(response.resultList[0]))
             clearInterval(onlineStatusInterval)
             setTimeout(() => {
-              props.history.push('/dipangshu-online/categories')
+              props.history.push('/categories')
             }, 150)
           }
         })
@@ -51,7 +51,7 @@ function About(props) {
         style={{ width: 256 }}
         value={qrUrl}
       />
-      <div className='loginText'>请使用“堤旁树”小程序扫码登陆</div>
+      {/* <div className='loginText'>请使用“”小程序扫码登陆</div> */}
     </div>
   )
 }

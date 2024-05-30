@@ -62,8 +62,29 @@ export default function useFetchLesson({
         pagination.pageSize = parseInt(requestParams.pageSize || 20)
         setPagination({ ...pagination })
         const content = response.result.content
-        console.log(content[parseInt(queryParams.catIndex) || 0].content, 'parseInt(queryParams.catIndex)')
-        setDataList(content[parseInt(queryParams.catIndex) || 0].content)
+        let nextSection = 0
+        let nextChapter = response.result.id
+        if (content.length === (parseInt(queryParams.catIndex) + 1)) {
+          nextChapter += 1
+        } else {
+          nextSection = (parseInt(queryParams.catIndex) + 1)
+        }
+        window.localStorage.setItem('nextSectionInfo', JSON.stringify({
+          chapter: nextChapter,
+          section: nextSection
+        }))
+        let targetContents = []
+        content.forEach(x => {
+          if (x.content && x.content.length) {
+            console.log(x.content, 779)
+
+            targetContents = targetContents.concat(x.content)
+          }
+        })
+        console.log(content, targetContents, '====targetContents===')
+        // console.log(content[parseInt(queryParams.catIndex) || 0].content, 'parseInt(queryParams.catIndex)')
+        // setDataList(content[parseInt(queryParams.catIndex) || 0].content)
+        setDataList(targetContents)
         // if (window.localStorage) {
         //   const historyData = window.localStorage.getItem('historyData')
         //   if (!historyData || historyData === '[]') {

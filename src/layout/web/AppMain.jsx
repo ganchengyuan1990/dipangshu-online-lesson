@@ -1,6 +1,6 @@
 import React, { useReducer, useState } from 'react'
 import useMount from '@/hooks/useMount'
-import { Button, Alert, Radio, Message } from 'antd'
+import { Button, Radio, Message } from 'antd'
 import { ANNOUNCEMENT } from '@/config'
 import { useMediaQuery } from 'react-responsive'
 import useFetchDetail from '@/hooks/useFetchDetail'

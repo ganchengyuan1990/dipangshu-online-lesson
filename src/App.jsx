@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
+import { BrowserRouter, HashRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import Categories from '@/views/web/categories'
 
 // config
 import routes from '@/routes'
@@ -49,11 +50,12 @@ const App = props => {
   }
 
   const children = renderRoutes(routes, '/')
+  console.log(children, 'children')
   return (
-    <BrowserRouter>
+    <HashRouter>
       {children}
       <PublicComponent />
-    </BrowserRouter>)
+    </HashRouter>)
 }
 
 export default App

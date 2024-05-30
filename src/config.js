@@ -9,7 +9,7 @@ import MyInfo from '@/views/web/about/MyInfo'
 export const API_BASE_URL = 'http://127.0.0.1:6060'
 
 // project config
-export const HEADER_BLOG_NAME = '堤旁树课程中心' // header title 显示的名字
+export const HEADER_BLOG_NAME = '课程中心' // header title 显示的名字
 
 // === sidebar
 export const SIDEBAR = {

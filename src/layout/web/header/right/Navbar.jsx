@@ -13,7 +13,16 @@ function NavBar(props) {
     <Menu mode={mode} selectedKeys={[location.pathname]} className='header-nav'>
       {navList.map(nav => (
         <Menu.Item key={nav.link}>
-          <Link to={nav.link}>
+          <Link to={nav.link} onClick={() => {
+            if (!nav.logout) {
+              return
+            }
+            window.localStorage.setItem('onlineUser', '')
+            window.localStorage.setItem('wechatUser', true)
+            window.sessionStorage.removeItem('userInfo')
+            // window.history.back(-1)
+            location.href = '../index.html'
+          }}>
             {nav.icon && <Icon type={nav.icon} />}
             <span className='nav-text'>{nav.title}</span>
           </Link>

@@ -166,12 +166,12 @@ module.exports = function(webpackEnv) {
       pathinfo: isEnvDevelopment,
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
-      filename: isEnvProduction ? './dipangshu-online/static/js/[name].[contenthash:8].js' : isEnvDevelopment && 'static/js/bundle.js',
+      filename: isEnvProduction ? './v2-online-new/static/js/[name].[contenthash:8].js' : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProduction
-        ? './dipangshu-online/static/js/[name].[contenthash:8].chunk.js'
+        ? './v2-online-new/static/js/[name].[contenthash:8].chunk.js'
         : isEnvDevelopment && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
@@ -554,14 +554,14 @@ module.exports = function(webpackEnv) {
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
           // both options are optional
-          filename: './dipangshu-online/static/css/[name].[contenthash:8].css',
-          chunkFilename: './dipangshu-online/static/css/[name].[contenthash:8].chunk.css'
+          filename: './v2-online-new/static/css/[name].[contenthash:8].css',
+          chunkFilename: './v2-online-new/static/css/[name].[contenthash:8].chunk.css'
         }),
       // Generate a manifest file which contains a mapping of all asset filenames
       // to their corresponding output file so that tools can pick it up without
       // having to parse `index.html`.
       new ManifestPlugin({
-        fileName: './dipangshu-online/asset-manifest.json',
+        fileName: './v2-online-new/asset-manifest.json',
         publicPath: publicPath,
         generate: (seed, files) => {
           const manifestFiles = files.reduce(function(manifest, file) {

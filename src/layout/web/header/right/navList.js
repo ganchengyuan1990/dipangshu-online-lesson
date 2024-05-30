@@ -2,7 +2,14 @@ export default [
   {
     icon: 'home',
     title: '首页',
-    link: '/dipangshu-online/index.html'
+    link: '../index.html?userFrom=wechat'
+  },
+  {
+    icon: 'home',
+    title: '登出',
+    link: '../index.html?userFrom=wechat',
+    logout: true
+    // link: '/index.html'
   },
   // {
   //   icon: 'edit',
