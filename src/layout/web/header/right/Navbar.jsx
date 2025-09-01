@@ -10,7 +10,7 @@ function NavBar(props) {
   const location = useLocation()
   const { mode = 'horizontal' } = props
   return (
-    <Menu mode={mode} selectedKeys={[location.pathname]} className='header-nav'>
+    <Menu mode={mode} selectedKeys={[location.pathname]} className='header-nav' key={Date.now()}>
       {navList.map(nav => (
         <Menu.Item key={nav.link}>
           <Link to={nav.link} onClick={() => {

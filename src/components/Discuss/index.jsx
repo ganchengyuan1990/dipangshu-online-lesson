@@ -26,10 +26,10 @@ const Editor = ({ onChange, onSubmit, submitting, value, articleId }) => (
     </Form.Item>
     <Form.Item>
       <div className='controls'>
-        <Icon type='info-circle' className='controls-tip-icon' />
-        <span className='controls-tip'>支持 Markdown 语法</span>
+        {/* <Icon type='info-circle' className='controls-tip-icon' />
+        <span className='controls-tip'>支持 Markdown 语法</span> */}
         <Button className='disscus-btn' htmlType='submit' loading={submitting} onClick={onSubmit} type='primary'>
-          {articleId !== -1 ? '添加评论' : '留言'}
+          {articleId !== -1 ? '生成图片' : '留言'}
         </Button>
       </div>
     </Form.Item>
@@ -100,7 +100,7 @@ function Discuss(props) {
 
   return (
     <div id='discuss'>
-      <div className='discuss-header'>
+      {/* <div className='discuss-header'>
         <span className='discuss-count'>{calcCommentsCount(commentList)}</span>
         {articleId !== -1 ? '条评论' : '条留言'}
         <span className='discuss-user'>
@@ -111,7 +111,7 @@ function Discuss(props) {
           </Dropdown>
         </span>
         <Divider className='hr' />
-      </div>
+      </div> */}
 
       <Comment
         avatar={

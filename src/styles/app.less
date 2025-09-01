@@ -204,14 +204,30 @@
     .wrapper {
       display: flex;
       .caozuolan {
-        width: 400px;
+        width: 30%;
         margin: 0 20px;
-        .caozuolanWrapper {
+        .caozuolanWrapperV2 {
           position: fixed;
-          height: 100vh;
           right: 12px;
           border-left: 2px dashed #109080;
-          top: 0px;
+          top: 80px;
+          padding: 0 20px;
+          width: 40%;
+          margin-left: 20px;
+          padding-top: 20px;
+          z-index: 1000;
+          .title {
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: underline;
+          }
+        }
+        .caozuolanWrapper {
+          position: fixed;
+          height: 80vh;
+          right: 12px;
+          border-left: 2px dashed #109080;
+          top: 100px;
           padding: 0 20px;
           width: 40%;
           margin-left: 20px;
@@ -225,6 +241,7 @@
       }
     }
     .show_words {
+      // display: inline-block;
       font-size: 1.1em;
       line-height: 1.6;
       color: #333;
@@ -236,6 +253,7 @@
       display: block;
       margin-bottom: 1.5em;
       max-width: 800px;
+      margin-top: 1rem;
     }
     .show_videos {
       width: 85%;
@@ -332,7 +350,7 @@
 
 .button-bottom-left {
   position: fixed;
-  width: 70%;
+  width: 60%;
   left: 10%;
   bottom: 60px;
   text-align: center;
@@ -346,8 +364,8 @@
   .aiPeople {
     position: absolute;
     bottom: -30px;
-    right: -150px;
-    width: 120px;
+    right: -180px;
+    width: 160px;
     border-radius: 60px;
     height: 120px;
   }
@@ -357,17 +375,29 @@
   }
 }
 
-.button-bottom-tiny {
+
+.aiPeopleV2 {
   position: fixed;
+  top: 50px;
+  right: 50px;
+  width: 160px;
+  z-index: 100000;
+}
+
+.button-bottom-tiny {
+  // position: fixed;
   width: 80px;
-  left: 0;
+  position: relative;
+  top: 40px;
+  // left: 0;
+  left: 24px;
   bottom: 80px;
   text-align: center;
   z-index: 1000;
   line-height: 60px;
-  background: #ff6633;
-  border-radius: 100%;
-  opacity: 0.8;
+  // background: #ff6633;
+  // border-radius: 100%;
+  // opacity: 0.8;
   color: #fff;
   img {
     width: 30px;
@@ -438,12 +468,14 @@
   margin: 20px auto;
 }
 .am-modal-wrap  {
-  width: 1000px;
+  width: 1200px;
   top: 5vh;
   left: 50%;
   transform: translateX(-50%);
-  height: 75vh;
-  margin-bottom: 30px;
+  height: 85vh;
+  // max-height: 800px;
+  z-index: 100000;
+  // margin-bottom: 30px;
   // .modalWrap {
   //   width: 800px;
   // }

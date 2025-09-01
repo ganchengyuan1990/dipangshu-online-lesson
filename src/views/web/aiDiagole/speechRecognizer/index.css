@@ -1,0 +1,141 @@
+.btn-start {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 25px;
+  width: 27px;
+  height: 27px;
+  display: inline-block;
+  z-index: 1000;
+}
+
+.btn-revert {
+  bottom: 1rem;
+  left: 0.4rem;
+}
+
+.btn {
+  background: unset !important;
+}
+
+.anna-search_bar-input-value {
+  max-width: 100%;
+  margin-left: 0px;
+  padding-left: 6px;
+}
+
+.recordText {
+  font-weight: bold;
+  width: 90%;
+  margin: 0px auto;
+  margin-top: 11px;
+  margin-left: 8%;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 4px;
+  background-color: #fff;
+}
+
+
+.audio_input {
+  height: 4rem;
+  line-height: 60px;
+  text-align: center;
+  position: absolute;
+  z-index: 100;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* background: rgba(255, 255, 255, 1); */
+  background: rgba(247, 247, 247, 1);
+}
+
+.anna-search_bar-input-is_left {
+  left: 66px;
+}
+
+.mask_wrapper {
+  background-color: rgba(0,0,0,0.2);
+  position: fixed;
+  top: 0;
+  bottom: 12rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+}
+
+
+.mask_text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.time-box .start-taste-line .hr {
+  background-color: #fff;
+  width: 15px;
+  height: 18px;
+  margin: 0 0.15rem;
+  display: inline-block;
+  border: none;
+}
+
+.hr {
+  animation: note 0.2s ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.hr1 {
+  animation-delay: -1s;
+}
+
+.hr2 {
+  animation-delay: -0.9s;
+}
+
+.hr3 {
+  animation-delay: -0.8s;
+}
+
+.hr4 {
+  animation-delay: -0.7s;
+}
+
+.hr5 {
+  animation-delay: -0.6s;
+}
+
+.hr6 {
+  animation-delay: -0.5s;
+}
+
+.hr7 {
+  animation-delay: -0.4s;
+}
+
+.hr8 {
+  animation-delay: -0.3s;
+}
+
+.hr9 {
+  animation-delay: -0.2s;
+}
+
+.hr10 {
+  animation-delay: -0.1s;
+}
+
+@keyframes note {
+  from {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(4);
+  }
+}
+

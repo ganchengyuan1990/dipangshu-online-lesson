@@ -1,8 +1,11 @@
 /*eslint-disable*/
 
-import React, { useReducer, useState, useEffect, useRef } from 'react'
+import React, { useReducer, useState, useEffect, useRef, useMemo } from 'react'
 import useMount from '@/hooks/useMount'
 import { Button, Radio, Tooltip, Icon, Input, Spin } from 'antd'
+import TravelPage from "../aiDiagoleModal";
+// import TravelPage from "../aiDiagoleModal/indexV2";
+import TravelPageImg from "../workTable/index";
 import JoLPlayer from "jol-player";
 import {
   Player,
@@ -75,6 +78,9 @@ function Lesson(props) {
   const [loading, showLoading] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [aiInput, setAiInput] = useState(false);
+  const [showDiaModal, setShowDiaModal] = useState(false);
+  const [showImgModal, setShowImgModal] = useState(false);
+
 
   const [openingUrl, setOpeningUrl] = useState("");
   const [chosenType, setChosenYype]=  useState("");
@@ -115,8 +121,25 @@ function Lesson(props) {
     setDataList(initData);
   }, [initData])
 
+  const duomeitiArrV2 = useMemo(() => {
+    return (dataList || []).filter(x => {
+      return x.type !== 1; 
+    })
+  }, [dataList.length])
+
+  // const toggleAiImg = () => {
+  //   setAiInput(!aiInput)
+  // }
+
   const toggleAiImg = () => {
-    setAiInput(!aiInput)
+    // setAiInput(!aiInput)
+    // props.history.push(`/workTable`)
+    setShowImgModal(true);
+  }
+
+  const toggleAiDialog = () => {
+    // props.history.push(`/aiDiagole`)
+    setShowDiaModal(true);
   }
 
   const getAiImg = async (word) => {
@@ -302,13 +325,13 @@ function Lesson(props) {
     return url;
   }
   return (
-    <div className="wrapper" style={{maxWidth: '80%', marginTop: '60px', marginLeft: '24px'}}>
+    <div className="wrapper" style={{maxWidth: '80%', marginTop: '60px', marginLeft: '24px', marginBottom: '100px'}}>
       { loading ? <div className="loadingWrapper">
         <Spin />
       </div> : null}
     
 
-      <div style={{ flex: 1 }}>
+      <div style={{}}>
         {/* {userInfo && userInfo.user_name && <div>欢迎{userInfo.user_name}登录</div>}
         {props.children} */}
         {dataList && dataList.map((item, index) => (
@@ -317,7 +340,10 @@ function Lesson(props) {
               <div style={{ marginRight: 20 }}>{item.value}</div>
               <span onClick={() => {
                 props.history.push(`/lesson/${props.match.params.id}/remark/${index}?cat=${window.location.href.split('=')[1]}`)
-              }} style={{ position: 'absolute', top: '50%', right: '-10px', transform: 'translate(-50%, -50%)' }}><Icon type="question-circle" /></span>
+              }} style={{ position: 'absolute', top: '50%', right: '-10px', transform: 'translate(-50%, -50%)' }}>
+                {/* <Icon type="question-circle" /> */}
+                </span>
+              {item.mp3FilePath ?  <audio controls="controls" id="audioId" width="100" height="100" style={{ marginTop: '12px' }} src={item.mp3FilePath}></audio> : null}
             </div>
             : item.type === 2 ? <img key={index} className='show_pics' src={item.value}></img>
               : item.type === 3 ? 
@@ -344,7 +370,13 @@ function Lesson(props) {
             // <video src={item.value} className='show_videos' controls='controls' autoplay='autoplay'></video>
                 : item.type === 5 ? <audio src={item.value} className='show_videos' controls='controls' autoplay='autoplay'></audio>
                   : item.type === 6 ? <div><a src={item.value} onClick={() => window.open(item.value)}>下载{item.value.match(/\[\S*\]/) && item.value.match(/\[\S*\]/)[0] || '[此图纸]'}</a></div>
-                    : item.type === 7 ? <Tooltip title="点击试用" placement="rightTop" defaultVisible={true}><div type='primary' onClick={toggleAiImg} className='aiImg'></div></Tooltip>
+                    : item.type === 7 ? 
+                      <div type='primary' className='aiImg'>
+                        <div className='aiWrap'>
+                          <div className='aiButtonV2' onClick={toggleAiImg}>文生图</div>
+                          <div className='aiButton' onClick={toggleAiDialog}>AI对话</div>
+                        </div>
+                      </div>
                     : <div>
                       <div className='radio-title'>{item.title}</div>
                       <Radio.Group onChange={onChange} value={item.defualtValue} buttonStyle='solid'>
@@ -378,9 +410,14 @@ function Lesson(props) {
         </div> : null}
       </div>
       <div className="caozuolan">
+        <div className="caozuolanWrapperV2">
+          <div className="title" onClick={toggleAiDialog}>AI对话</div>
+        </div>
+      </div>
+      <div className="caozuolan">
         <div className="caozuolanWrapper">
           <div className="title">参考栏</div>
-          {duomeitiArr && duomeitiArr.map((item, index) => (
+          {duomeitiArrV2 && duomeitiArrV2.map((item, index) => (
             <div onClick={() => {
               if (item.type === 6) {
                 window.open(item.value)
@@ -408,6 +445,21 @@ function Lesson(props) {
           </video> }
         </div>
       </Modal> : null}
+      <Modal closable={true}  title="AI助手" visible={showDiaModal} onOk={() => {
+        setShowDiaModal(false);
+      }}  onClose={() => {
+        setShowDiaModal(false);
+      }}>
+        <TravelPage />
+      </Modal>
+
+      <Modal title="AI助手" closable={true} visible={showImgModal} onOk={() => {
+        setShowImgModal(false);
+      }}  onClose={() => {
+        setShowImgModal(false);
+      }}>
+        <TravelPageImg />
+      </Modal>
     </div>
   )
 }

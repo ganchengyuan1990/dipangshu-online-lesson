@@ -1,10 +1,12 @@
 /*eslint-disable*/
 
-import React, { useReducer, useState } from 'react'
+import React, { useReducer, useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import useMount from '@/hooks/useMount'
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Table, Progress, Switch, Select, Input } from 'antd'
-
+import { DndProvider, useDrop, useDrag } from 'react-dnd';
 import { Button, Steps, Modal, Message, Tree } from 'antd'
+import LanguageSelector from './components/LanguageSelector';
 import { ANNOUNCEMENT } from '@/config'
 import useFetchDetail from '@/hooks/useFetchDetail'
 import { withRouter } from 'react-router-dom'
@@ -34,7 +36,31 @@ function Lesson(props) {
   let userName = ''
 
   const [ownPaikeInfo, setOwnPaikeInfo] = useState(null)
+  const [currentLanguage, setCurrentLanguage] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [userId, setUserId] = useState(null)
+
+  const judgeLanguage = () => {
+    const preferredLanguage = window.localStorage.getItem('preferredLanguage');
+    if (props.match.params.id === '《工具九宫格|工具微精通》') {
+      if (preferredLanguage) {
+        setCurrentLanguage(preferredLanguage);
+      }
+    }
+  }
+
+  useEffect(() => {
+    judgeLanguage()
+    // axios.post('https://www.coffeebeats.cn/getAliOssFileUrl', {
+    //   fileName: 'fff15430f5bb71ef80d6e7f6d75a6302'
+    // })
+    // axios.post('https://www.coffeebeats.cn/ai/deepseek/test', {
+    //   question: '你是谁？'
+    // })
+    // axios.post('https://www.coffeebeats.cn/ai/question', {
+    //   question: '你是谁？'
+    // })
+  }, [])
 
 
 
@@ -47,6 +73,10 @@ function Lesson(props) {
     if (name === 'wechat') {
       name = ''
     }
+    axios.post('https://www.coffeebeats.cn/tencent/translate', {
+      words: '急急急',
+      language: 'en'
+    })
     console.log(name, 9996)
     axios
       .get('https://www.coffeebeats.cn/getOnlineLessonTitleV2ByName', {
@@ -84,6 +114,7 @@ function Lesson(props) {
           let contentIns
           if (response.result) {
             contentIns = JSON.parse(response.result.content)
+            console.log(contentIns,'==contentIns==')
             setOwnPaikeInfo(contentIns)
 
           } else {
@@ -170,13 +201,26 @@ function Lesson(props) {
 
               console.log(res, '===res===');
 
-      
-              setDataList(res.sort((a, b) => a.lesson_index - b.lesson_index).map((ee, idx) => {
+              const lastRes = res.sort((a, b) => a.lesson_index - b.lesson_index).map((ee, idx) => {
                 return {
                   ...ee,
                   exams: ggg[idx]
                 }
-              }))
+              })
+
+              const lastResWithoutSteps = res.sort((a, b) => a.lesson_index - b.lesson_index).map((ee, idx) => {
+                return {
+                  ...ee,
+                  exams: ggg[idx]
+                }
+              }).filter(x=> !!x.content?.length);
+
+              console.log(lastRes, '==lastRes==')
+              window.localStorage.setItem('allLessonData', JSON.stringify(lastRes))
+
+              window.localStorage.setItem('allLessonDataWithNoSteps', JSON.stringify(lastResWithoutSteps))
+              setDataList(lastRes)
+              window.dataList = lastRes;
       
       
             })
@@ -213,6 +257,8 @@ function Lesson(props) {
   //   }
   // })
 
+  const ifIsLessonOne = props.match.params.id?.indexOf('工具微精通') > 0;
+
 
   const [dataList, setDataList] = useState([])
 
@@ -235,6 +281,15 @@ function Lesson(props) {
   //   // setCurrent(dataList.length)
   //   console.log(e)
   // }
+
+  // const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
+  //   connectDropTarget: connect.dropTarget(),
+  //   isOver: monitor.isOver(),
+  // }))(
+  //   DragSource('row', rowSource, connect => ({
+  //     connectDragSource: connect.dragSource(),
+  //   }))(BodyRow),
+  // );
 
   const onButtonClick = (item, index) => {
     if (true) {
@@ -261,205 +316,262 @@ function Lesson(props) {
 
   console.log(dataList, '===datalist====')
 
-  const columns = [
-    {
-      title: '课程/分隔内容',
-      dataIndex: 'lesson_title',
-      key: 'lesson_title',
-      render: (text, record, index) => {
-        console.log(record, 9999)
-        return    record.type === 'gapLine' ? <Input
-            placeholder='请输入分隔内容'
-            className='title-input'
-            name='title'
-            value={record.text}
-            onChange={e => {
-              const newData = JSON.parse(JSON.stringify(dataList));
-              newData[index].text = e.target.value
-              setDataList(newData)
-              // record.text = e.target.value
-              // console.log(e.target.value, 999)
-            }}
-          /> : <span>{record.lesson_title}</span>
-      }
-    },
-    {
-      title: '章节',
-      dataIndex: 'lesson_name',
-      key: 'lesson_name',
-      render: (text, record, index) => {
-        return (<span className="go_text" onClick={() => {
-          props.history.push(`/lesson/${record.id}?cat=${0}`)
-        }}>{text}</span>)
-      }
-    },
-    {
-      title: '等级',
-      dataIndex: 'paike_level',
-      key: 'paike_level',
-      render: (text, record, index) => {
-        console.log(record, '===record===')
-        if (record.type === 'gapLine') {
-          return null
+  const columns = useMemo(() => {
+    console.log(currentLanguage, '==currentLanguage==')
+    return [
+      {
+        title: '课程/分隔内容',
+        dataIndex: 'lesson_title',
+        key: 'lesson_title',
+        render: (text, record, index) => {
+          console.log(record, 9999)
+          const guide = JSON.parse(record?.guide || '{}');
+          return    record.type === 'gapLine' ? <Input
+              placeholder='请输入分隔内容'
+              className='title-input'
+              name='title'
+              defaultValue={record.text}
+              onPressEnter={(e) => {
+                const newData = JSON.parse(JSON.stringify(window.dataList));
+                newData[index].text = e.target.value
+                console.log(e.target.value, '===e.target.value==')
+                setDataList(newData)
+              }}
+              // suffix={<Button onClick={() => {
+              //   const newData = JSON.parse(JSON.stringify(window.dataList));
+              //   newData[index].text = inputValue
+              //   setDataList(newData)
+              //   // record.text = e.target.value
+              //   // console.log(e.target.value, 999)
+              // }}>保存</Button>}
+              // value={record.text}
+              // onChange={e => {
+              //   setInputValue(e.target.value);
+              //   // record.text = e.target.value
+              //   // console.log(e.target.value, 999)
+              // }}
+            /> : <span>{currentLanguage === 'en' ? guide?.enTitle : record.lesson_title}</span>
         }
-        return (
-          <Select disabled={true} style={{ width: 200 }} allowClear value={record.paike_level} onChange={(value) => {
-            const newData = JSON.parse(JSON.stringify(dataList));
-            newData[index].paike_level = value;
-            setDataList(newData)
-          }}>
-            {paikeLevels.map(item => (
-              <Select.Option key={item} value={item}>
-                {item}
-              </Select.Option>
-            ))}
-          </Select>
-        )
       },
-      onCell: (record, rowIndex) => {
-        console.log(record, 98765)
-      }
-    },
-
-    {
-      title: '操作',
-      dataIndex: 'model',
-      key: 'model',
-      render: (text, record, index) => {
-        return <div>
-          <Button onClick={() => {
-            // e.preventDefault()
-            const newData = JSON.parse(JSON.stringify(dataList))
-            const a = newData.splice(
-              index,
-              1,
-              ...newData.splice(index - 1, 1, newData[index])
-            )
-            console.log(newData, '====a====')
-            setDataList(newData)
-          }} style={{ marginRight: 8 }}>
-            上移一行
-          </Button>
-          <Button onClick={() => {
-            const newData = JSON.parse(JSON.stringify(dataList))
-            const a = newData.splice(
-              index,
-              1,
-              ...newData.splice(index + 1, 1, newData[index])
-            )
-            setDataList(newData)
-          }} style={{ marginRight: 8 }}>
-            下移一行
-          </Button>
-          <Button onClick={() => {
-            const newData = JSON.parse(JSON.stringify(dataList))
-            const a = newData.splice(
-              index,
-              0,
-              {
-                type: "gapLine",
-                idx: index
-              }
-            )
-            setDataList(newData)
-          }} style={{ marginRight: 8 }}>
-            增加分隔符
-          </Button>
-          {record.type === 'gapLine' ? <Button onClick={() => {
-            const newData = JSON.parse(JSON.stringify(dataList))
-            const a = newData.splice(
-              index,
-              1
-            )
-            setDataList(newData)
-          }} style={{ marginRight: 8 }}>
-            删除分隔符
-          </Button> : null}
-          {record.type !== 'gapLine' ? <Button onClick={() => {
+      {
+        title: '章节',
+        dataIndex: 'lesson_name',
+        key: 'lesson_name',
+        render: (text, record, index) => {
+          const guide = JSON.parse(record?.guide || '{}');
+          return (<span className="go_text" onClick={() => {
             props.history.push(`/lesson/${record.id}?cat=${0}`)
-          }} style={{ marginRight: 8 }}>
-            进入课程
-          </Button> : null}
-          {record.type !== 'gapLine' ? <Button onClick={() => {
-            props.history.push(`/agent/${record.id}?cat=${0}`)
-          }} style={{ marginRight: 8 }}>
-            AI技能教练
-          </Button> : null}
-        </div>
+          }}>{currentLanguage === 'en' ? guide?.enLessonName : text}</span>)
+        }
+      },
+      {
+        title: '等级',
+        dataIndex: 'paike_level',
+        key: 'paike_level',
+        render: (text, record, index) => {
+          console.log(record, '===record===')
+          if (record.type === 'gapLine') {
+            return null
+          }
+          return (
+            <Select disabled={true} style={{ width: 200 }} allowClear value={record.paike_level} onChange={(value) => {
+              const newData = JSON.parse(JSON.stringify(dataList));
+              newData[index].paike_level = value;
+              setDataList(newData)
+            }}>
+              {paikeLevels.map(item => (
+                <Select.Option key={item} value={item}>
+                  <span className={`optionColor ${record.paike_level}`}></span>{item}
+                </Select.Option>
+              ))}
+            </Select>
+          )
+        },
+        onCell: (record, rowIndex) => {
+          // console.log(record, 98765)
+        }
+      },
+  
+      {
+        title: '操作',
+        dataIndex: 'model',
+        key: 'model',
+        render: (text, record, index) => {
+          return <div>
+            <Button onClick={() => {
+              const newData = JSON.parse(JSON.stringify(window.dataList))
+              const a = newData.splice(
+                index,
+                0,
+                {
+                  type: "gapLine",
+                  idx: index
+                }
+              )
+              console.log(newData, '===newData==')
+              window.dataList = newData;
+              setDataList(newData)
+            }} style={{ marginRight: 8 }}>
+              { currentLanguage === 'en' ? 'add separators' : '增加分隔符' }
+            </Button>
+            {record.type === 'gapLine' ? <Button onClick={() => {
+              const newData = JSON.parse(JSON.stringify(window.dataList))
+              const a = newData.splice(
+                index,
+                1
+              )
+              setDataList(newData)
+              window.dataList = newData;
+            }} style={{ marginRight: 8 }}>
+              { currentLanguage === 'en' ? 'delete separators' : '删除分隔符' }
+            </Button> : null}
+            {record.type !== 'gapLine' ? <Button type="primary" onClick={() => {
+              // props.history.push(`/lesson/${record.id}?cat=${0}`)
+              props.history.push(`/aiDiagole?idx=${index}`)
+            }} style={{ marginRight: 8 }}>
+              
+              { currentLanguage === 'en' ? 'into the course' : '进入课程' }
+            </Button> : null}
+            {/* {record.type !== 'gapLine' ? <Button type="primary" onClick={() => {
+              props.history.push(`/aiDiagole?idx=${index}`)
+            }} style={{ marginRight: 8 }}>
+              
+              { currentLanguage === 'en' ? 'AI Skills Coach' : 'AI技能教练' }
+            </Button> : null} */}
+          </div>
+        }
       }
-    }
-  ];
+    ]
+  }, [currentLanguage]);
 
-  console.log(dataList, '===dataList===')
+
+  const DragRow = ({
+    index,
+    moveRow,
+    className,
+    style,
+    disableDrop,
+    ...restProps
+  }) => {
+    const type = 'DragRow';
+    const ref = useRef(null);
+    const [{ isOver, dropClassName }, drop] = useDrop({
+      accept: type,
+      collect: (monitor) => {
+        const { index: dragIndex } = monitor.getItem() || {};
+        if (dragIndex !== index) {
+          return {
+            isOver: monitor.isOver(),
+            dropClassName:
+              dragIndex < index ? ' drop-over-downward' : ' drop-over-upward',
+          };
+        }
+        return {};
+      },
+      drop: (item) => {
+        console.log(item, '===moveRow===');
+        moveRow(item.index, index);
+        // const newData = JSON.parse(JSON.stringify(dataList))
+        // const a = newData.splice(
+        //   index,
+        //   1,
+        //   ...newData.splice(index - 1, 1, newData[index])
+        // )
+        // console.log(newData, '====a====')
+        // setDataList(newData)
+      },
+    });
+    const [, drag] = useDrag({
+      type,
+      item: { index },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
+      }),
+    });
+  
+    const canDrop = !disableDrop;
+  
+    if (canDrop) {
+      drop(drag(ref));
+    }
+  
+    return (
+      <tr
+        ref={ref}
+        className={`${className}${isOver ? dropClassName : ''}`}
+        style={{ cursor: canDrop ? 'move' : 'auto', ...style }}
+        {...restProps}
+      />
+    );
+  };
+
+  const moveRow = useCallback((dragIndex, targetIndex) => {
+    console.log(dragIndex, targetIndex, '==targetIndex===')
+    const dragRow = dataList[dragIndex];
+    setDataList((d) => {
+      const newData = [...d];
+      newData.splice(dragIndex, 1);
+      newData.splice(targetIndex, 0, dragRow);
+      return newData;
+    })
+  }, [dataList])
+
+  const handleLanguageChange = (lang) => {
+    console.log('Language changed to:', lang);
+    setCurrentLanguage(lang);
+    // 这里可以添加其他语言切换相关的逻辑
+  };
 
 
   return (
     <div className='steps_wrapper'>
-      <div>当前登录账号：{userName}</div>
+      <div style={{ position: 'relative' }}>{`${currentLanguage === 'en' ? 'current user: ': '当前登录账号：'}${userName}`}
+        <div className='langu_selector'>
+          {ifIsLessonOne ? <LanguageSelector onChange={handleLanguageChange} /> : null}
+        </div>
+      </div>
+
+
+
+      
+
       <div style={{ marginTop: 30 }}>
-        <Table
-          pagination={{pageSize: 100}}
-          key={'table'}  //key👈👈👈
-          bordered={true} row-style={(record) => {
-            console.log(row, 666)
-            return record.success ? { background: 'rgba(100, 200, 100, 0.5)' } : null
-          }}
-          rowClassName={(record) => {
-            if (record.type === 'gapLine'){
-              return 'gapLine'
-            }
-            return record.paike_level === 'L1' ? 'L1' : record.paike_level === 'L2' ? 'L2' : record.paike_level === 'L3' ? 'L3' : ''
-          }}
-          rowKey={(record) => {
-            return record.id;
-          }}
-          dataSource={dataList}
-          columns={columns}
-        />
+        <DndProvider backend={HTML5Backend}>
+          <Table
+            pagination={{pageSize: 100}}
+            key={'table'}  //key👈👈👈
+            bordered={true} row-style={(record) => {
+              console.log(row, 666)
+              return record.success ? { background: 'rgba(100, 200, 100, 0.5)' } : null
+            }}
+            components={{
+              body: {
+                row: DragRow,
+              },
+            }}
+            onRow={(_, index) => {
+              const attr = {
+                index: index,
+                moveRow,
+              };
+              return attr;
+            }}
+            rowClassName={(record) => {
+              if (record.type === 'gapLine'){
+                return 'gapLine'
+              }
+              return record.paike_level === 'L1' ? 'L1' : record.paike_level === 'L2' ? 'L2' : record.paike_level === 'L3' ? 'L3' : ''
+            }}
+            rowKey={(record) => {
+              return record.id;
+            }}
+            dataSource={dataList}
+            columns={columns}
+          />
+        </DndProvider>
 
       </div>
 
-      {/* <Steps direction='vertical' current={current}>
-        {dataList && dataList.map((item, index) => (
-          <Step title={item.lesson_name} data-index={index} onClick={onButtonClick.bind(this, item, index)}/>
-        ))}
-      </Steps> */}
-
-      {/* {(dataList || []).map((item, index) => (
-        <div title={item.lesson_name} key={index} className='tree-parent'>
-          <div className="title">{item.lesson_name}</div>
-          {item.content && item.content.map((ele, idx) => (
-            <div title={ele.name} key={index + '-' + idx} data-index={index} onClick={onButtonClick.bind(this, item, idx)} className={ele.isBelowLine ? 'tree-node belowLine' : 'tree-node'}>
-              {ele.name}
-            </div>
-          ))}
-          {(item.exams || []).map(ele => (
-            <div style={{
-              marginLeft: 20,
-              fontSize: 15,
-              color: '#f63'
-            }}
-              onClick={() => {
-                props.history.push(`/exam/${ele.id}`)
-            }}>{ele.name}</div>
-          ))}
-        </div>
-      ))} */}
-
-      {/* <Tree
-        showLine
-        defaultExpandAll={true}
-        defaultExpandedKeys={['0-0-0']}
-      >
-        {dataList && dataList.map((item, index) => (
-          <TreeNode title={item.lesson_name} key={index} data-index={index} onClick={onButtonClick.bind(this, item, index)}>
-            {item.content && item.content.map((ele, idx) => (
-              <TreeNode title={ele.name} key={index + '-' + idx}>
-              </TreeNode>
-            ))}
-          </TreeNode>
-        ))}
-      </Tree> */}
       <Modal
         title='进度提示'
         visible={showModal}

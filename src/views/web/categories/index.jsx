@@ -39,7 +39,7 @@ function Categories(props) {
     //         aiImgSetter(`data:image/png;base64,${res.data.ResultImage}`)
     //       })
     axios
-          .get('https://www.coffeebeats.cn/getAllOnlineLessonsV2?openid=${userInfo.id}')
+          .get(`https://www.coffeebeats.cn/getAllOnlineLessonsV2?openid=${userInfo.id}`)
           .then(response => {
             axios
               .post('https://www.coffeebeats.cn/getOnlineUserInfoById', {

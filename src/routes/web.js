@@ -17,6 +17,10 @@ import Express from '@/views/web/express'
 import Sections from '@/views/web/sections'
 
 import Command from '@/views/web/command'
+import TextToImage from '@/views/web/textToImage/index'
+import WorkTable from '@/views/web/workTable/index'
+import AiDiagole from '@/views/web/aiDiagole/index'
+
 import Exam from '@/views/web/exams'
 import lazy from '@/components/Lazy'
 const PageNotFound = lazy(() => import('@/components/404'))
@@ -55,7 +59,9 @@ export default {
     { path: '/agentV2/:id', component: AgentV2 },
     { path: '/command/:id', component: Command },
     { path: '/exam/:id', component: Exam },
-
+    { path: '/textToImage', component: TextToImage },
+    { path: '/workTable', component: WorkTable },
+    { path: '/aiDiagole', component: AiDiagole },
     { path: '/lesson/:id/remark/:remarkId', component: Remark },
     { path: '/*', component: Categories }
   ]

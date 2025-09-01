@@ -50,263 +50,284 @@ recognition.continuous = false;
 function Agent(props) {
   // let isBuyed = false
   window.voice = null;
+  const ref0 = React.useRef(null);
   const ref1 = React.useRef(null);
   const ref2 = React.useRef(null);
   const ref3 = React.useRef(null);
   const ref4 = React.useRef(null);
   const ref5 = React.useRef(null);
+
+  const ref6 = React.useRef(null);
+
   const [chosenLessonId, setChosenLessonId] = useState(102);
-  const [showAnimation, setShowAnimation] = useState(true);
+  const [showAnimation, setShowAnimation] = useState(false);
   const [showLesson, setShowLesson] = useState(false);
 
 
 
   useMount(() => {
-    // setTimeout(() => {
-    //   setShowAnimation(false);
-    //   setTimeout(() => {
-    //     // var typed = new Typed('#typed',options);
-    //     setTimeout(() => {
-    //       // const element2 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[1];
-    //       console.log(ref1, 888)
-    //       ref1.current.className = 'typing';
-    //       ref1.current.style.display = 'block';
-    //       setTimeout(() => {
-    //         // const element3 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[2];
-    //         ref2.current.className = 'typing';
-    //         ref2.current.style.display = 'block';
-    //         setTimeout(() => {
-    //           // const element3 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[2];
-    //           ref5.current.style.display = 'block';
-    //         }, 2500)
-    //       }, 2000)
-    //     }, 2000)
-    //   }, 1000);
-    //   confirm({
-    //     title: '您的AI助教已上线',
-    //     width: 600,
-    //     height: 400,
-    //     content: <div style={{marginTop: 30}}>
-    //       <div id="#typed1" className="typing">
-    //         <div>你想动手做什么？</div>
-    //       </div>
-    //       <div ref={ref1} id="#typed2" style={{ display: 'none ', color: "#109080", marginLeft: "400px"}}>我想做......</div>
-    //       <div ref={ref2} id="#typed3" style={{ display: 'none '}}>目前我可以进行木作教学，我们一起来试一试，请问你有木工基础吗？</div>
-    //       <div ref={ref5} style={{ display: 'none ', marginLeft: "300px", marginBottom: '12px'}}>
-    //         <ButtonGroup>
-    //           <Button onClick={() => {
-    //             ref3.current.className = 'typing';
-    //             ref3.current.style.display = 'block';
-    //             setChosenLessonId(102)
-    //             window.chosenLessonId = 102;
-    //           }}>无基础</Button>
-    //           <Button onClick={() => {
-    //             ref4.current.className = 'typing';
-    //             ref4.current.style.display = 'block';
-    //             setChosenLessonId(61);
-    //             window.chosenLessonId = 61;
+    setTimeout(() => {
+      setShowAnimation(false);
+      // getAiSound('https://www.coffeebeats.cn/uploads/1716559604122.mp3')
+      confirm({
+        title: '您的AI助教已上线',
+        width: 600,
+        height: 400,
+        content: <div style={{ marginTop: 30 }}>
+          <span ref={ref6}>
+            {/* <Button type="primary" onClick={() => {
+              ref6.current.style.display = 'none'
 
-    //           }}>有基础</Button>
-    //         </ButtonGroup>
-    //       </div>
-    //       <div ref={ref3} id="#typed4" style={{ display: 'none '}}>那我们从简单的项目开始，尝试做一把木质的果酱刀</div>
-    //       <div ref={ref4} id="#typed5" style={{ display: 'none '}}>我们可以尝试制作一个中国传统的榫卯结构：格肩榫</div>
+              ref0.current.className = 'typing';
+              ref0.current.style.display = 'block';
+              getAiSound('https://www.coffeebeats.cn/uploads/1717249216818.mp3')
+              setTimeout(() => {
+                // var typed = new Typed('#typed',options);
+                setTimeout(async () => {
+                  // const element2 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[1];
+                  console.log(ref1, 888)
+                  ref1.current.className = 'typing';
+                  ref1.current.style.display = 'block';
+                  setTimeout(async () => {
+
+                    // const element3 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[2];
+                    ref2.current.className = 'typing';
+                    ref2.current.style.display = 'block';
+                    await getAiSound('https://www.coffeebeats.cn/uploads/1717249360818.mp3');
+                    recognition.start();
+                    setTimeout(() => {
+                      // const element3 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[2];
+                      // ref5.current.style.display = 'block';
+                    }, 2500)
+                  }, 2000)
+                }, 2000)
+              }, 1500);
+            }}>请点击这里开始</Button> */}
+          </span>
+          <div ref={ref0} id="#typed1" style={{ display: 'none ' }}>
+            <div>你想动手做什么？</div>
+          </div>
+          <div ref={ref1} id="#typed2" style={{ display: 'none ', color: "#109080", marginLeft: "400px" }}>我想做......</div>
+          <div ref={ref2} id="#typed3" style={{ display: 'none ' }}>目前我可以进行木作教学，我们一起来试一试，请问你有木工基础吗？</div>
+          <div ref={ref5} style={{ display: 'none ', marginLeft: "300px", marginBottom: '12px' }}>
+            <ButtonGroup>
+              <Button onClick={async () => {
+                ref3.current.className = 'typing';
+                ref3.current.style.display = 'block';
+                setChosenLessonId(102)
+                await getAiSound('https://www.coffeebeats.cn/uploads/1717249380046.mp3')
+                document.querySelector(".ant-modal-confirm .ant-modal-confirm-btns button + button").style.display = 'block'
+                window.chosenLessonId = 102;
+              }}>无基础</Button>
+              <Button onClick={async () => {
+                ref4.current.className = 'typing';
+                ref4.current.style.display = 'block';
+                await getAiSound('https://www.coffeebeats.cn/uploads/1717249390229.mp3')
+                document.querySelector(".ant-modal-confirm .ant-modal-confirm-btns button + button").style.display = 'block'
+                setChosenLessonId(106);
+                window.chosenLessonId = 106;
+
+              }}>有基础</Button>
+            </ButtonGroup>
+          </div>
+          <div ref={ref3} id="#typed4" style={{ display: 'none ' }}>那我们从简单的项目开始，尝试做一把木质的果酱刀</div>
+          <div ref={ref4} id="#typed5" style={{ display: 'none ' }}>我们可以尝试制作一个中国传统的榫卯结构：格肩榫</div>
 
 
-    //     </div>,
-    //     onOk: async () => {
-    //       axios
-    //       .get('https://www.coffeebeats.cn/getOnlineLessonV2ById', {
-    //         params: {
-    //           id: window.chosenLessonId,
-    //           catIndex: window.location.href.split('=')[1],
-    //         }
-    //       })
-    //       .then(response => {
-    //         setShowLesson(true);
-    //         let sss = [];
-    //         setTimeout(async () => {
-    //           let speechSynthesis = window.speechSynthesis;
-    //           speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', updateVoice);
-    //           function updateVoice() {
-    //             if (speechSynthesis) {
-    //               window.voice = speechSynthesis.getVoices().find(voice => { console.log(voice, 999555); return voice.lang == 'zh-CN'})
-    //             }
-    //             // document.getElementById('voice_name').textContent = voice?.name ?? '(No Voice)';
-    //           }
-    //           updateVoice()
-    
-    
-    //           if (response.result?.content?.[0]?.name?.indexOf("导入") >= 0) {
-    //             const newDataList = JSON.parse(JSON.stringify(dataList))
-    //             const contents = response.result?.content[0]?.content;
-    //             for(let i = 0; i < contents?.length; i++) {
-    //               contents[i].shown = true;
-    //               contents[i].noSide = true;
-    //               contents[i].title = '课程导入：';
-    //               contents[i].from = 'agent';
-    //               newDataList.push(contents[i]);
-    //               // console.log(123123123)
-    //               // await getSkillPromise(3000);
-    //             }
-    //             let stepDaoyu = `完成这个项目有${response.result?.steps?.length}个主要步骤，分别是：</br>`
-    //             response.result?.steps.forEach(x => {
-    //               stepDaoyu += `${x.step}: ${x.content}</br>`
-    //             })
-    //             newDataList.push({
-    //               type: 1,
-    //               shown: true,
-    //               value: stepDaoyu,
-    //               noSide: true,
-    //               from: 'agent'
-    //             })
-                
-    //             newDataList.push({
-    //               type: 1,
-    //               shown: true,
-    //               value: `接下来集中注意力！我们从第一步开始`,
-    //               noSide: true,
-    //               from: 'agent'
-    //             })
-    //             contents.push({
-    //               type: 1,
-    //               shown: true,
-    //               value: stepDaoyu.replace(/<\/br>/g, ''),
-    //               mp3FilePath: 'https://cdn.coffeebeats.cn/mp3/4.mp3',
-    //               noSide: true,
-    //               from: 'agent'
-    //             })
-    //             contents.push({
-    //               type: 1,
-    //               shown: true,
-    //               value: `接下来集中注意力！我们从第一步开始`,
-    //               mp3FilePath: 'https://cdn.coffeebeats.cn/mp3/5.mp3',
-    //               noSide: true,
-    //               from: 'agent'
-    //             })
-    
-    //             setDataList(newDataList)
-    //             const strContents = contents.filter(x => x.type === 1);
-    //             const ssu = new SpeechSynthesisUtterance(strContents[0]?.value);
-    //             // ssu.voice = window.voice;
-    //             // ssu.voice = speechSynthesis.getVoices()[0]
-    //             ssu.pitch = 0;
-    //             ssu.lang = 'zh-TW';
-    //             ssu.rate = 1.2;
-    //             ssu.addEventListener('end', e => {
-    //               var ele = document.querySelector('.app-main');
-    //               if (!ele) {
-    //                 return
-    //               }
-    //               // ele.scrollTop = ele.scrollHeight + 300
-    //               ele.scrollTo({ top: 800, behavior: 'smooth' })
-    //               setTimeout(() => {
-    //                 if (!strContents[1]) {
-    //                   return
-    //                 }
-    //                 const ssu1 = new SpeechSynthesisUtterance(strContents[1]?.value);
-    //                 // ssu.voice = window.voice;
-    //                 // ssu.voice = speechSynthesis.getVoices()[0]
-    //                 ssu1.pitch = 0;
-    //                 ssu1.rate = 1.2;
-    //                 ssu1.lang = 'zh-TW';
-    //                 ssu1.addEventListener('end', e => {
-    //                   // showStepsSetter(true);
-    //                   setTimeout(() => {
-    //                     var ele = document.querySelector('.app-main');
-    //                     if (!ele) {
-    //                       return
-    //                     }
-    //                     // ele.scrollTop = ele.scrollHeight + 300
-    //                     ele.scrollTo({ top: 100000, behavior: 'smooth' })
-    
-    
-    //                     const ssu2 = new SpeechSynthesisUtterance(strContents[2]?.value);
-    //                     // ssu.voice = window.voice;
-    //                     // ssu.voice = speechSynthesis.getVoices()[0]
-    //                     ssu2.pitch = 0;
-    //                     ssu2.lang = 'zh-TW';
-    //                     speechSynthesis.speak(ssu2);
-    //                     ssu2.addEventListener('end', e => {
-    //                       // setAiInput(false);
-    //                       setTimeout(() => {
-    //                         var ele = document.querySelector('.app-main');
-    //                         if (!ele) {
-    //                           return
-    //                         }
-    //                         // ele.scrollTop = ele.scrollHeight + 300
-    //                         ele.scrollTo({ top: 100000, behavior: 'smooth' })
-      
-      
-    //                         const ssu3 = new SpeechSynthesisUtterance(strContents[3]?.value);
-    //                         // ssu.voice = window.voice;
-    //                         // ssu.voice = speechSynthesis.getVoices()[0]
-    //                         ssu3.pitch = 0;
-    //                         ssu3.lang = 'zh-TW';
-    //                         speechSynthesis.speak(ssu3);
-    //                       }, 1000);
-    
-    //                     })
-    //                   }, 1500)
-    
-    
-    //                 })
-    
-    //                 speechSynthesis.speak(ssu1);
-    //               }, 1500)
-    //             });
+        </div>,
+        onOk: async () => {
+          axios
+            .get('https://www.coffeebeats.cn/getOnlineLessonV2ById', {
+              params: {
+                id: window.location.href.split('/')[window.location.href.split('/').length -1],
+                catIndex: window.location.href.split('=')[1],
+              }
+            })
+            .then(response => {
+              // setShowLesson(true);
+              let sss = [];
+              setTimeout(async () => {
+                let speechSynthesis = window.speechSynthesis;
+                speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', updateVoice);
+                function updateVoice() {
+                  if (speechSynthesis) {
+                    window.voice = speechSynthesis.getVoices().find(voice => { console.log(voice, 999555); return voice.lang == 'zh-CN' })
+                  }
+                  // document.getElementById('voice_name').textContent = voice?.name ?? '(No Voice)';
+                }
+                updateVoice()
 
-    //             // document.querySelector(".ant-modal-mask").style.display = 'none';
-    //             // document.querySelector(".ant-modal-wrap").style.display = 'none';
-      
-    //             console.log(strContents, '==strContents===')
-      
-    //             var ele = document.querySelector('.app-main');
-    //             // await getAiSound("https://cdn.coffeebeats.cn/mp3/1.mp3");
-    //             for(let i = 0; i < strContents.length; i++) {
-    //               await getAiSound(strContents[i].mp3FilePath)
-    //               ele.scrollTo({ top: 800 * (i + 1), behavior: 'smooth' })
-    //             }
-    
-                
-    //             // var typed = new Typed('.element', options);
-    
-    
-    
-    
-    
-    //             // speechSynthesis.speak(ssu);
-    
-    
-    //             // console.log(contents, '===contents===')
-    //           }
-    
-    
-    //         }, 2000);
-    //         if (response.result?.steps) {
-    //           response.result.steps = JSON.parse(response.result?.steps);
-    //           response.result.steps.forEach(x => {
-    //             if (x.scripts) {
-    //               sss = sss.concat(x.scripts);
-    //             }
-    //           })
-    //           stepsArrSetter(response.result.steps);
-    //           setScripts(sss);
-    //           console.log(response.result.steps, '===response.result.steps===')
-    
-    //         }
-    //         // if () {}
-    //         lessonDataSetter(response.result);
-    //         setTimeout(() => {
-    //           showStepsSetter(true);
-    //           answerLoadingSetter(false);
-    //         }, 1500)
-    //       })
 
-    //     },
-    //     okText: "开始上课"
-    //   });
-    // }, 50000000);
+                if (response.result?.content?.[0]?.name?.indexOf("导入") >= 0) {
+                  const newDataList = JSON.parse(JSON.stringify([]))
+                  const contents = response.result?.content[0]?.content;
+                  for (let i = 0; i < contents?.length; i++) {
+                    contents[i].shown = true;
+                    contents[i].noSide = true;
+                    contents[i].title = '课程导入：';
+                    contents[i].from = 'agent';
+                    newDataList.push(contents[i]);
+                    // console.log(123123123)
+                    // await getSkillPromise(3000);
+                  }
+                  let stepDaoyu = `完成这个项目有${response.result?.steps?.length}个主要步骤，分别是：</br>`
+                  response.result?.steps.forEach(x => {
+                    stepDaoyu += `${x.step}: ${x.content}</br>`
+                  })
+                  newDataList.push({
+                    type: 1,
+                    shown: true,
+                    value: stepDaoyu,
+                    noSide: true,
+                    from: 'agent'
+                  })
+
+                  newDataList.push({
+                    type: 1,
+                    shown: true,
+                    value: `接下来集中注意力！我们从第一步开始`,
+                    noSide: true,
+                    from: 'agent'
+                  })
+                  contents.push({
+                    type: 1,
+                    shown: true,
+                    value: stepDaoyu.replace(/<\/br>/g, ''),
+                    mp3FilePath: window.chosenLessonId === 106 ? 'https://www.coffeebeats.cn/uploads/1717076439101.mp3' : 'https://cdn.coffeebeats.cn/mp3/4.mp3',
+                    noSide: true,
+                    from: 'agent'
+                  })
+                  contents.push({
+                    type: 1,
+                    shown: true,
+                    value: `接下来集中注意力！我们从第一步开始`,
+                    mp3FilePath: 'https://cdn.coffeebeats.cn/mp3/5.mp3',
+                    noSide: true,
+                    from: 'agent'
+                  })
+
+                  setDataList(newDataList)
+                  const strContents = contents.filter(x => x.type === 1);
+                  const ssu = new SpeechSynthesisUtterance(strContents[0]?.value);
+                  // ssu.voice = window.voice;
+                  // ssu.voice = speechSynthesis.getVoices()[0]
+                  ssu.pitch = 0;
+                  ssu.lang = 'zh-TW';
+                  ssu.rate = 1.2;
+                  ssu.addEventListener('end', e => {
+                    var ele = document.querySelector('.app-main');
+                    if (!ele) {
+                      return
+                    }
+                    // ele.scrollTop = ele.scrollHeight + 300
+                    ele.scrollTo({ top: 800, behavior: 'smooth' })
+                    setTimeout(() => {
+                      if (!strContents[1]) {
+                        return
+                      }
+                      const ssu1 = new SpeechSynthesisUtterance(strContents[1]?.value);
+                      // ssu.voice = window.voice;
+                      // ssu.voice = speechSynthesis.getVoices()[0]
+                      ssu1.pitch = 0;
+                      ssu1.rate = 1.2;
+                      ssu1.lang = 'zh-TW';
+                      ssu1.addEventListener('end', e => {
+                        // showStepsSetter(true);
+                        setTimeout(() => {
+                          var ele = document.querySelector('.app-main');
+                          if (!ele) {
+                            return
+                          }
+                          // ele.scrollTop = ele.scrollHeight + 300
+                          ele.scrollTo({ top: 100000, behavior: 'smooth' })
+
+
+                          const ssu2 = new SpeechSynthesisUtterance(strContents[2]?.value);
+                          // ssu.voice = window.voice;
+                          // ssu.voice = speechSynthesis.getVoices()[0]
+                          ssu2.pitch = 0;
+                          ssu2.lang = 'zh-TW';
+                          speechSynthesis.speak(ssu2);
+                          ssu2.addEventListener('end', e => {
+                            // setAiInput(false);
+                            setTimeout(() => {
+                              var ele = document.querySelector('.app-main');
+                              if (!ele) {
+                                return
+                              }
+                              // ele.scrollTop = ele.scrollHeight + 300
+                              ele.scrollTo({ top: 100000, behavior: 'smooth' })
+
+
+                              const ssu3 = new SpeechSynthesisUtterance(strContents[3]?.value);
+                              // ssu.voice = window.voice;
+                              // ssu.voice = speechSynthesis.getVoices()[0]
+                              ssu3.pitch = 0;
+                              ssu3.lang = 'zh-TW';
+                              speechSynthesis.speak(ssu3);
+                            }, 1000);
+
+                          })
+                        }, 1500)
+
+
+                      })
+
+                      speechSynthesis.speak(ssu1);
+                    }, 1500)
+                  });
+
+                  // document.querySelector(".ant-modal-mask").style.display = 'none';
+                  // document.querySelector(".ant-modal-wrap").style.display = 'none';
+
+                  console.log(strContents, '==strContents===')
+
+                  var ele = document.querySelector('.app-main');
+                  // await getAiSound("https://cdn.coffeebeats.cn/mp3/1.mp3");
+                  for (let i = 0; i < strContents.length; i++) {
+                    await getAiSound(strContents[i].mp3FilePath)
+                    ele.scrollTo({ top: 800 * (i + 1), behavior: 'smooth' })
+                  }
+
+
+                  // var typed = new Typed('.element', options);
+
+
+
+
+
+                  // speechSynthesis.speak(ssu);
+
+
+                  // console.log(contents, '===contents===')
+                }
+
+
+              }, 2000);
+              if (response.result?.steps) {
+                response.result.steps = JSON.parse(response.result?.steps);
+                response.result.steps.forEach(x => {
+                  if (x.scripts) {
+                    sss = sss.concat(x.scripts);
+                  }
+                })
+                stepsArrSetter(response.result.steps);
+                setScripts(sss);
+                console.log(response.result.steps, '===response.result.steps===')
+
+              }
+              // if () {}
+              lessonDataSetter(response.result);
+              setTimeout(() => {
+                showStepsSetter(true);
+                answerLoadingSetter(false);
+              }, 1500)
+            })
+
+        },
+        okText: "开始上课"
+      });
+    }, 500);
     try {
       const search = props.location.search
       const _array = search.split('?')
@@ -495,7 +516,7 @@ function Agent(props) {
         // const targetItem = finalScripts.find(x => x.keywords.indexOf(text) >= 0 || pinyin(x.keywords, {
         //   toneType: 'none'
         // }).indexOf(pinyin(text, { toneType: 'none' })) >= 0);
-        console.log(finalScripts, lessonData.steps, currentStep, targetItem,'====scripts====')
+        console.log(finalScripts, lessonData.steps, currentStep, targetItem, '====scripts====')
         if (targetItem) {
           const newDataList = JSON.parse(JSON.stringify(dataList))
           const content = targetItem.contents[0]?.param;
@@ -564,7 +585,7 @@ function Agent(props) {
             if (lessonData.content?.[currentStep + 1]?.name?.indexOf("收尾") >= 0) {
               const newDataList = JSON.parse(JSON.stringify(dataList))
               const contents = lessonData.content[currentStep + 1]?.content;
-              for(let i = 0; i < contents?.length; i++) {
+              for (let i = 0; i < contents?.length; i++) {
                 contents[i].shown = true;
                 contents[i].noSide = true;
                 contents[i].title = '课程尾声：';
@@ -614,7 +635,7 @@ function Agent(props) {
               setCurrentStep(currentStep + 1);
 
             }
-            
+
           }, 8000);
         }
       }
@@ -634,9 +655,13 @@ function Agent(props) {
   }, [dataList.length, currentStep])
 
   const toggleAiImg = () => {
-    setAiInput(!aiInput)
+    // setAiInput(!aiInput)
+    props.history.push(`/workTable`)
   }
 
+  const toggleAiDialog = () => {
+    props.history.push(`/aiDiagole`)
+  }
 
   const getAiSound = async (mp3) => {
     // axios
@@ -645,7 +670,7 @@ function Agent(props) {
 
     // }).then(res => {
     //   console.log(res, '===getAiSound===')
-      
+
     //   let audioBlob = base64ToBlob(res?.data?.Audio,"mp3");
     //   let audio = document.getElementById("audioId");
     //   audio.src = window.URL.createObjectURL(audioBlob);
@@ -678,7 +703,7 @@ function Agent(props) {
 
 
 
-    
+
   }
 
 
@@ -708,7 +733,7 @@ function Agent(props) {
       setDataList(newDataList)
       const strContents = thisContents.filter(x => x.type === 1);
       var ele = document.querySelector('.app-main');
-      for(let i = 0; i < strContents.length; i++) {
+      for (let i = 0; i < strContents.length; i++) {
         await getAiSound(strContents[i].mp3FilePath)
         ele.scrollTop = ele.scrollHeight
         // ele.scrollTo({ top: 80 * (i + 1), behavior: 'smooth' })
@@ -755,7 +780,7 @@ function Agent(props) {
 
     }
 
-    
+
 
     // newDataList.splice(newDataList.length - 1, 0, {
     //   type: 1,
@@ -865,7 +890,7 @@ function Agent(props) {
   console.log(dataList, '===datalist===')
 
   if (showAnimation) {
-    return <div style={{ position: 'fixed' , top: 0, bottom: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: '#fff'}}>
+    return <div style={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0, zIndex: 1000, backgroundColor: '#fff' }}>
       <img onClick={async () => {
         setShowAnimation(false);
         setTimeout(() => {
@@ -873,9 +898,11 @@ function Agent(props) {
           setTimeout(() => {
             // const element2 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[1];
             console.log(ref1, 888)
+            getAiSound('https://www.coffeebeats.cn/uploads/1717249216818.mp3')
             ref1.current.className = 'typing';
             ref1.current.style.display = 'block';
             setTimeout(() => {
+              getAiSound('https://www.coffeebeats.cn/uploads/1717249360818.mp3')
               // const element3 = document.querySelector('.ant-modal-body .ant-modal-confirm-content').childNodes[2];
               ref2.current.className = 'typing';
               ref2.current.style.display = 'block';
@@ -891,234 +918,237 @@ function Agent(props) {
           title: '您的AI助教已上线',
           width: 600,
           height: 400,
-          content: <div style={{marginTop: 30}}>
+          content: <div style={{ marginTop: 30 }}>
+            <div>请点击这里开启旅程</div>
             <div id="#typed1" className="typing">
               <div>你想动手做什么？</div>
             </div>
-            <div ref={ref1} id="#typed2" style={{ display: 'none ', color: "#109080", marginLeft: "400px"}}>我想做......</div>
-            <div ref={ref2} id="#typed3" style={{ display: 'none '}}>目前我可以进行木作教学，我们一起来试一试，请问你有木工基础吗？</div>
-            <div ref={ref5} style={{ display: 'none ', marginLeft: "300px", marginBottom: '12px'}}>
+            <div ref={ref1} id="#typed2" style={{ display: 'none ', color: "#109080", marginLeft: "400px" }}>我想做......</div>
+            <div ref={ref2} id="#typed3" style={{ display: 'none ' }}>目前我可以进行木作教学，我们一起来试一试，请问你有木工基础吗？</div>
+            <div ref={ref5} style={{ display: 'none ', marginLeft: "300px", marginBottom: '12px' }}>
               <ButtonGroup>
                 <Button onClick={() => {
                   ref3.current.className = 'typing';
                   ref3.current.style.display = 'block';
                   setChosenLessonId(102)
+                  getAiSound('https://www.coffeebeats.cn/uploads/1717249380046.mp3')
                   window.chosenLessonId = 102;
                 }}>无基础</Button>
                 <Button onClick={() => {
                   ref4.current.className = 'typing';
+                  getAiSound('https://www.coffeebeats.cn/uploads/1717249390229.mp3')
                   ref4.current.style.display = 'block';
                   setChosenLessonId(106);
                   window.chosenLessonId = 106;
-  
+
                 }}>有基础</Button>
               </ButtonGroup>
             </div>
-            <div ref={ref3} id="#typed4" style={{ display: 'none '}}>那我们从简单的项目开始，尝试做一把木质的果酱刀</div>
-            <div ref={ref4} id="#typed5" style={{ display: 'none '}}>我们可以尝试制作一个中国传统的榫卯结构：格肩榫</div>
-  
-  
+            <div ref={ref3} id="#typed4" style={{ display: 'none ' }}>那我们从简单的项目开始，尝试做一把木质的果酱刀</div>
+            <div ref={ref4} id="#typed5" style={{ display: 'none ' }}>我们可以尝试制作一个中国传统的榫卯结构：格肩榫</div>
+
+
           </div>,
           onOk: async () => {
             axios
-            .get('https://www.coffeebeats.cn/getOnlineLessonV2ById', {
-              params: {
-                id: window.chosenLessonId,
-                catIndex: window.location.href.split('=')[1],
-              }
-            })
-            .then(response => {
-              setShowLesson(true);
-              let sss = [];
-              setTimeout(async () => {
-                let speechSynthesis = window.speechSynthesis;
-                speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', updateVoice);
-                function updateVoice() {
-                  if (speechSynthesis) {
-                    window.voice = speechSynthesis.getVoices().find(voice => { console.log(voice, 999555); return voice.lang == 'zh-CN'})
-                  }
-                  // document.getElementById('voice_name').textContent = voice?.name ?? '(No Voice)';
+              .get('https://www.coffeebeats.cn/getOnlineLessonV2ById', {
+                params: {
+                  id: window.chosenLessonId,
+                  catIndex: window.location.href.split('=')[1],
                 }
-                updateVoice()
-      
-      
-                if (response.result?.content?.[0]?.name?.indexOf("导入") >= 0) {
-                  const newDataList = JSON.parse(JSON.stringify([]))
-                  const contents = response.result?.content[0]?.content;
-                  for(let i = 0; i < contents?.length; i++) {
-                    contents[i].shown = true;
-                    contents[i].noSide = true;
-                    contents[i].title = '课程导入：';
-                    contents[i].from = 'agent';
-                    newDataList.push(contents[i]);
-                    // console.log(123123123)
-                    // await getSkillPromise(3000);
-                  }
-                  let stepDaoyu = `完成这个项目有${response.result?.steps?.length}个主要步骤，分别是：</br>`
-                  response.result?.steps.forEach(x => {
-                    stepDaoyu += `${x.step}: ${x.content}</br>`
-                  })
-                  newDataList.push({
-                    type: 1,
-                    shown: true,
-                    value: stepDaoyu,
-                    noSide: true,
-                    from: 'agent'
-                  })
-                  
-                  newDataList.push({
-                    type: 1,
-                    shown: true,
-                    value: `接下来集中注意力！我们从第一步开始`,
-                    noSide: true,
-                    from: 'agent'
-                  })
-                  contents.push({
-                    type: 1,
-                    shown: true,
-                    value: stepDaoyu.replace(/<\/br>/g, ''),
-                    mp3FilePath: window.chosenLessonId === 106 ? 'https://www.coffeebeats.cn/uploads/1717076439101.mp3' : 'https://cdn.coffeebeats.cn/mp3/4.mp3',
-                    noSide: true,
-                    from: 'agent'
-                  })
-                  contents.push({
-                    type: 1,
-                    shown: true,
-                    value: `接下来集中注意力！我们从第一步开始`,
-                    mp3FilePath: 'https://cdn.coffeebeats.cn/mp3/5.mp3',
-                    noSide: true,
-                    from: 'agent'
-                  })
-      
-                  setDataList(newDataList)
-                  const strContents = contents.filter(x => x.type === 1);
-                  const ssu = new SpeechSynthesisUtterance(strContents[0]?.value);
-                  // ssu.voice = window.voice;
-                  // ssu.voice = speechSynthesis.getVoices()[0]
-                  ssu.pitch = 0;
-                  ssu.lang = 'zh-TW';
-                  ssu.rate = 1.2;
-                  ssu.addEventListener('end', e => {
-                    var ele = document.querySelector('.app-main');
-                    if (!ele) {
-                      return
+              })
+              .then(response => {
+                // setShowLesson(true);
+                let sss = [];
+                setTimeout(async () => {
+                  let speechSynthesis = window.speechSynthesis;
+                  speechSynthesis.addEventListener && speechSynthesis.addEventListener('voiceschanged', updateVoice);
+                  function updateVoice() {
+                    if (speechSynthesis) {
+                      window.voice = speechSynthesis.getVoices().find(voice => { console.log(voice, 999555); return voice.lang == 'zh-CN' })
                     }
-                    // ele.scrollTop = ele.scrollHeight + 300
-                    ele.scrollTo({ top: 800, behavior: 'smooth' })
-                    setTimeout(() => {
-                      if (!strContents[1]) {
+                    // document.getElementById('voice_name').textContent = voice?.name ?? '(No Voice)';
+                  }
+                  updateVoice()
+
+
+                  if (response.result?.content?.[0]?.name?.indexOf("导入") >= 0) {
+                    const newDataList = JSON.parse(JSON.stringify([]))
+                    const contents = response.result?.content[0]?.content;
+                    for (let i = 0; i < contents?.length; i++) {
+                      contents[i].shown = true;
+                      contents[i].noSide = true;
+                      contents[i].title = '课程导入：';
+                      contents[i].from = 'agent';
+                      newDataList.push(contents[i]);
+                      // console.log(123123123)
+                      // await getSkillPromise(3000);
+                    }
+                    let stepDaoyu = `完成这个项目有${response.result?.steps?.length}个主要步骤，分别是：</br>`
+                    response.result?.steps.forEach(x => {
+                      stepDaoyu += `${x.step}: ${x.content}</br>`
+                    })
+                    newDataList.push({
+                      type: 1,
+                      shown: true,
+                      value: stepDaoyu,
+                      noSide: true,
+                      from: 'agent'
+                    })
+
+                    newDataList.push({
+                      type: 1,
+                      shown: true,
+                      value: `接下来集中注意力！我们从第一步开始`,
+                      noSide: true,
+                      from: 'agent'
+                    })
+                    contents.push({
+                      type: 1,
+                      shown: true,
+                      value: stepDaoyu.replace(/<\/br>/g, ''),
+                      mp3FilePath: window.chosenLessonId === 106 ? 'https://www.coffeebeats.cn/uploads/1717076439101.mp3' : 'https://cdn.coffeebeats.cn/mp3/4.mp3',
+                      noSide: true,
+                      from: 'agent'
+                    })
+                    contents.push({
+                      type: 1,
+                      shown: true,
+                      value: `接下来集中注意力！我们从第一步开始`,
+                      mp3FilePath: 'https://cdn.coffeebeats.cn/mp3/5.mp3',
+                      noSide: true,
+                      from: 'agent'
+                    })
+
+                    setDataList(newDataList)
+                    const strContents = contents.filter(x => x.type === 1);
+                    const ssu = new SpeechSynthesisUtterance(strContents[0]?.value);
+                    // ssu.voice = window.voice;
+                    // ssu.voice = speechSynthesis.getVoices()[0]
+                    ssu.pitch = 0;
+                    ssu.lang = 'zh-TW';
+                    ssu.rate = 1.2;
+                    ssu.addEventListener('end', e => {
+                      var ele = document.querySelector('.app-main');
+                      if (!ele) {
                         return
                       }
-                      const ssu1 = new SpeechSynthesisUtterance(strContents[1]?.value);
-                      // ssu.voice = window.voice;
-                      // ssu.voice = speechSynthesis.getVoices()[0]
-                      ssu1.pitch = 0;
-                      ssu1.rate = 1.2;
-                      ssu1.lang = 'zh-TW';
-                      ssu1.addEventListener('end', e => {
-                        // showStepsSetter(true);
-                        setTimeout(() => {
-                          var ele = document.querySelector('.app-main');
-                          if (!ele) {
-                            return
-                          }
-                          // ele.scrollTop = ele.scrollHeight + 300
-                          ele.scrollTo({ top: 100000, behavior: 'smooth' })
-      
-      
-                          const ssu2 = new SpeechSynthesisUtterance(strContents[2]?.value);
-                          // ssu.voice = window.voice;
-                          // ssu.voice = speechSynthesis.getVoices()[0]
-                          ssu2.pitch = 0;
-                          ssu2.lang = 'zh-TW';
-                          speechSynthesis.speak(ssu2);
-                          ssu2.addEventListener('end', e => {
-                            // setAiInput(false);
-                            setTimeout(() => {
-                              var ele = document.querySelector('.app-main');
-                              if (!ele) {
-                                return
-                              }
-                              // ele.scrollTop = ele.scrollHeight + 300
-                              ele.scrollTo({ top: 100000, behavior: 'smooth' })
-        
-        
-                              const ssu3 = new SpeechSynthesisUtterance(strContents[3]?.value);
-                              // ssu.voice = window.voice;
-                              // ssu.voice = speechSynthesis.getVoices()[0]
-                              ssu3.pitch = 0;
-                              ssu3.lang = 'zh-TW';
-                              speechSynthesis.speak(ssu3);
-                            }, 1000);
-      
-                          })
-                        }, 1500)
-      
-      
-                      })
-      
-                      speechSynthesis.speak(ssu1);
-                    }, 1500)
-                  });
-  
-                  // document.querySelector(".ant-modal-mask").style.display = 'none';
-                  // document.querySelector(".ant-modal-wrap").style.display = 'none';
-        
-                  console.log(strContents, '==strContents===')
-        
-                  var ele = document.querySelector('.app-main');
-                  // await getAiSound("https://cdn.coffeebeats.cn/mp3/1.mp3");
-                  for(let i = 0; i < strContents.length; i++) {
-                    await getAiSound(strContents[i].mp3FilePath)
-                    ele.scrollTo({ top: 800 * (i + 1), behavior: 'smooth' })
+                      // ele.scrollTop = ele.scrollHeight + 300
+                      ele.scrollTo({ top: 800, behavior: 'smooth' })
+                      setTimeout(() => {
+                        if (!strContents[1]) {
+                          return
+                        }
+                        const ssu1 = new SpeechSynthesisUtterance(strContents[1]?.value);
+                        // ssu.voice = window.voice;
+                        // ssu.voice = speechSynthesis.getVoices()[0]
+                        ssu1.pitch = 0;
+                        ssu1.rate = 1.2;
+                        ssu1.lang = 'zh-TW';
+                        ssu1.addEventListener('end', e => {
+                          // showStepsSetter(true);
+                          setTimeout(() => {
+                            var ele = document.querySelector('.app-main');
+                            if (!ele) {
+                              return
+                            }
+                            // ele.scrollTop = ele.scrollHeight + 300
+                            ele.scrollTo({ top: 100000, behavior: 'smooth' })
+
+
+                            const ssu2 = new SpeechSynthesisUtterance(strContents[2]?.value);
+                            // ssu.voice = window.voice;
+                            // ssu.voice = speechSynthesis.getVoices()[0]
+                            ssu2.pitch = 0;
+                            ssu2.lang = 'zh-TW';
+                            speechSynthesis.speak(ssu2);
+                            ssu2.addEventListener('end', e => {
+                              // setAiInput(false);
+                              setTimeout(() => {
+                                var ele = document.querySelector('.app-main');
+                                if (!ele) {
+                                  return
+                                }
+                                // ele.scrollTop = ele.scrollHeight + 300
+                                ele.scrollTo({ top: 100000, behavior: 'smooth' })
+
+
+                                const ssu3 = new SpeechSynthesisUtterance(strContents[3]?.value);
+                                // ssu.voice = window.voice;
+                                // ssu.voice = speechSynthesis.getVoices()[0]
+                                ssu3.pitch = 0;
+                                ssu3.lang = 'zh-TW';
+                                speechSynthesis.speak(ssu3);
+                              }, 1000);
+
+                            })
+                          }, 1500)
+
+
+                        })
+
+                        speechSynthesis.speak(ssu1);
+                      }, 1500)
+                    });
+
+                    // document.querySelector(".ant-modal-mask").style.display = 'none';
+                    // document.querySelector(".ant-modal-wrap").style.display = 'none';
+
+                    console.log(strContents, '==strContents===')
+
+                    var ele = document.querySelector('.app-main');
+                    // await getAiSound("https://cdn.coffeebeats.cn/mp3/1.mp3");
+                    for (let i = 0; i < strContents.length; i++) {
+                      await getAiSound(strContents[i].mp3FilePath)
+                      ele.scrollTo({ top: 800 * (i + 1), behavior: 'smooth' })
+                    }
+
+
+                    // var typed = new Typed('.element', options);
+
+
+
+
+
+                    // speechSynthesis.speak(ssu);
+
+
+                    // console.log(contents, '===contents===')
                   }
-      
-                  
-                  // var typed = new Typed('.element', options);
-      
-      
-      
-      
-      
-                  // speechSynthesis.speak(ssu);
-      
-      
-                  // console.log(contents, '===contents===')
+
+
+                }, 2000);
+                if (response.result?.steps) {
+                  response.result.steps = JSON.parse(response.result?.steps);
+                  response.result.steps.forEach(x => {
+                    if (x.scripts) {
+                      sss = sss.concat(x.scripts);
+                    }
+                  })
+                  stepsArrSetter(response.result.steps);
+                  setScripts(sss);
+                  console.log(response.result.steps, '===response.result.steps===')
+
                 }
-      
-      
-              }, 2000);
-              if (response.result?.steps) {
-                response.result.steps = JSON.parse(response.result?.steps);
-                response.result.steps.forEach(x => {
-                  if (x.scripts) {
-                    sss = sss.concat(x.scripts);
-                  }
-                })
-                stepsArrSetter(response.result.steps);
-                setScripts(sss);
-                console.log(response.result.steps, '===response.result.steps===')
-      
-              }
-              // if () {}
-              lessonDataSetter(response.result);
-              setTimeout(() => {
-                showStepsSetter(true);
-                answerLoadingSetter(false);
-              }, 1500)
-            })
-  
+                // if () {}
+                lessonDataSetter(response.result);
+                setTimeout(() => {
+                  showStepsSetter(true);
+                  answerLoadingSetter(false);
+                }, 1500)
+              })
+
           },
-          okText: "开始上课"
+          okText: ""
         });
-      }} style={{ width: '100%'}} src="https://oss-open.aichan.info/imgs/qa/BG%402x%20%281%29.png-compress" />
-      <audio style={{visibility: "hidden"}} controls="controls" id="audioId" width="100" height="100" autoplay="autoplay"></audio>
+      }} style={{ width: '100%' }} src="https://oss-open.aichan.info/imgs/qa/BG%402x%20%281%29.png-compress" />
+      {/* <audio style={{visibility: "hidden"}} controls="controls" id="audioId" width="100" height="100" autoplay="autoplay"></audio> */}
     </div>
   }
 
-  if (!showLesson) {
-    return null
-  }
+  // if (!showLesson) {
+  //   return null
+  // }
 
   return (
     <div long={dataList?.length} style={{ marginBottom: '100px' }} className='innerWrapper'>
@@ -1297,11 +1327,18 @@ function Agent(props) {
               setAiInput(true);
             }}>返回AI助手</Button>
           </div>}
-          {/* { !aiInput ? <div type='primary' onClick={toggleAiImg} className='button-bottom-tiny aiImg'>
-          文生图
-        </div> : <div type='primary' onClick={toggleAiImg} className='button-bottom-tiny'>
-          切换回去
-        </div>} */}
+
+          <div className='aiPeopleV2'>
+
+            <div className='button-bottom-tiny aiImg'>
+              {/* 文生图 */}
+            </div>
+            <div className='aiWrap'>
+              <div className='aiButtonV2' onClick={toggleAiImg}>文生图</div>
+              <div className='aiButton' onClick={toggleAiDialog}>AI对话</div>
+            </div>
+ 
+          </div>
           {aiInput ? <div type='primary' className='button-bottom-left' onClick={onButtonClick}>
             {/* <Tooltip title="输入想生成的图片描述后，点击生成图片即可！" placement="top"> */}
             {/* <div>{window.ssuString}</div> */}
@@ -1343,8 +1380,9 @@ function Agent(props) {
                   recognition.stop();
                 }
 
-              }} src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/FileBizType.BIZ_BOT_ICON/2507315094491437_1708785320092927971.png~tplv-a9rns2rl98-image-qvalue.png?rk3s=0317c356&x-expires=1720835116&x-signature=%2Fy%2FjgCQyzCGC3GwBpd3WeskJBsk%3D" />
+              }} src="https://cdn.coffeebeats.cn/WechatIMG3145.jpeg-smaller" />
             </Tooltip>
+
 
             {/* <Search
               placeholder="请输入文字描述"
@@ -1390,7 +1428,9 @@ function Agent(props) {
           </div>
         </Modal> : null}
       </div>
-      <audio style={{visibility: "hidden"}} controls="controls" id="audioId" width="100" height="100" autoplay="autoplay"></audio>
+      {/* <audio style={{visibility: "hidden"}} controls="controls" id="audioId" width="100" height="100" autoplay="autoplay"></audio> */}
+      <audio style={{ visibility: "hidden" }} controls="controls" id="audioId" width="100" height="100" autoplay="autoplay"></audio>
+
     </div>
   )
 }
