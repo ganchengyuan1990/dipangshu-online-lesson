@@ -20,7 +20,7 @@ import Command from '@/views/web/command'
 import TextToImage from '@/views/web/textToImage/index'
 import WorkTable from '@/views/web/workTable/index'
 import AiDiagole from '@/views/web/aiDiagole/index'
-
+import Book from '@/views/web/book/index'
 import Exam from '@/views/web/exams'
 import lazy from '@/components/Lazy'
 const PageNotFound = lazy(() => import('@/components/404'))
@@ -62,6 +62,7 @@ export default {
     { path: '/textToImage', component: TextToImage },
     { path: '/workTable', component: WorkTable },
     { path: '/aiDiagole', component: AiDiagole },
+    { path: '/book', component: Book },
     { path: '/lesson/:id/remark/:remarkId', component: Remark },
     { path: '/*', component: Categories }
   ]

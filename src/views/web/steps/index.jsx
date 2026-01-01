@@ -29,6 +29,7 @@ const axisPromise = (url, params) => {
 
 const paikeLevels = ["L1", "L2", "L3"];
 
+let allLessonDataLocal;
 
 function Lesson(props) {
   let isBuyed = false
@@ -73,6 +74,9 @@ function Lesson(props) {
     if (name === 'wechat') {
       name = ''
     }
+    axios.post('https://www.coffeebeats.cn/ai/postgre/ask', {
+      question: '锯子的横截和纵切',
+    })
     axios.post('https://www.coffeebeats.cn/tencent/translate', {
       words: '急急急',
       language: 'en'
@@ -219,6 +223,8 @@ function Lesson(props) {
               window.localStorage.setItem('allLessonData', JSON.stringify(lastRes))
 
               window.localStorage.setItem('allLessonDataWithNoSteps', JSON.stringify(lastResWithoutSteps))
+
+              allLessonDataLocal = lastResWithoutSteps;
               setDataList(lastRes)
               window.dataList = lastRes;
       
@@ -426,8 +432,10 @@ function Lesson(props) {
               { currentLanguage === 'en' ? 'delete separators' : '删除分隔符' }
             </Button> : null}
             {record.type !== 'gapLine' ? <Button type="primary" onClick={() => {
+              console.log(record, allLessonDataLocal, '===record==');
               // props.history.push(`/lesson/${record.id}?cat=${0}`)
-              props.history.push(`/aiDiagole?idx=${index}`)
+              const indexVal = allLessonDataLocal.findIndex(x => x.id === record.id);
+              props.history.push(`/aiDiagole?idx=${indexVal}`)
             }} style={{ marginRight: 8 }}>
               
               { currentLanguage === 'en' ? 'into the course' : '进入课程' }
@@ -596,7 +604,11 @@ function Lesson(props) {
           content: JSON.stringify(params),
           lesson_id: props.match.params.id
         }).then(res => {
-          Message.success('更新成功')
+          Message.success('更新成功');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000)
+          
         })
 
         // Promise.all(dataList.map((item, idx) => {

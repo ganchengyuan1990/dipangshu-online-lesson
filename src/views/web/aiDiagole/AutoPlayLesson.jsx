@@ -1,5 +1,4 @@
 /*eslint-disable*/
-
 // AutoPlayLesson.js
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import axios from '@/utils/axios'
@@ -8,6 +7,7 @@ import TravelPage from "../aiDiagoleModal";
 import VideoPlayer from './VideoPlayer';
 import { Result, Button, Tooltip, Icon } from 'antd'
 import { Modal } from 'antd-mobile';
+import VideoDownload from './video';
 
 import {
   Player,
@@ -51,12 +51,14 @@ const AutoPlayLesson = (props) => {
   const [pause, setPause] = useState(false);
   const [showPause, setShowPause] = useState(false);
   const [showDiaModal, setShowDiaModal] = useState(false);
+  const [videoData, setVideoData] = useState([]);
 
   const [currentPlayIndex, setCurrentPlayIndex] = useState(0);
   const [lessonIndex, setLessonIndex] = useState(0);
+  const [videoCurrentTime, setVideoCurrentTime] = useState(0);
 
   const [openingUrl, setOpeningUrl] = useState("");
-  const [chosenType, setChosenYype]=  useState("");
+  const [chosenType, setChosenYype] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
 
@@ -75,7 +77,7 @@ const AutoPlayLesson = (props) => {
       audio.src = mp3
       audio.addEventListener("canplay", () => {
         // console.log(audio.src, 988)
-        audio.playbackRate = 12
+        audio.playbackRate = 1.2
         audio.play()
         // window.URL.revokeObjectURL(audio.src);
       });
@@ -160,6 +162,7 @@ const AutoPlayLesson = (props) => {
     }
     console.log(newData, 'newData')
     lessonDataSetter(newData);
+    setVideoData(newData.filter(x => x?.type ===3)?.map(m => decodeURIComponent(m.value)));
     lessonDataRef.current = newData;
     // axios
     // // .post('https://www.coffeebeats.cn/ai/qwen/videoElements', {
@@ -172,13 +175,29 @@ const AutoPlayLesson = (props) => {
     // })
   }, [currentLessonIndex])
 
-  const getName = (url) => {
-    "https://www.coffeebeats.cn/uploads/1694660404866-图片：小猫毛料与成品料对比.jpg"
-    const a = url.split('-');
+const getName = (url) => {
+  "https://www.coffeebeats.cn/uploads/1694660404866-图片：小猫毛料与成品料对比.jpg"
+  
+  // 使用正则表达式提取中文和数字部分
+  const match = decodeURIComponent(url).match(/[\u4e00-\u9fa5\：\|]+[\-]*[\d]*/g);
+  
+  if (match) {
+    // 如果找到中文和数字部分，返回它们
+    return match.join('');
+  } else {
+    // 如果没有找到匹配的部分，返回文件名
+    const parts = url.split('/');
+    const filename = parts[parts.length - 1];
+    const a = filename.split('-');
+    
+    console.log(a, url, 886644)
+    
     if (a[1]) {
-      return a[1].split('.')[0]
+      return a[1].split('.')[0];
     }
-    return url;
+  }
+  
+  return url;
   }
 
   const autoPlayLesson = async (data) => {
@@ -200,20 +219,6 @@ const AutoPlayLesson = (props) => {
           setShowImageModal(false);
         }
         else if (data[i].type === 3) {
-          // const inter = setInterval(async () => {
-          //   const videoDom = document.querySelector('.iiivideo')
-          //   console.log(videoDom, '===videoDom===')
-          //   if(videoDom.readyState > 0) {
-          //     // 在这里获取时长，不然有可能获取错误的视频时长，获取到的时长是一个string格式，注意格式化
-          //     console.log(parseFloat(videoDom.duration, 10), 'videoDom===3333')
-          //     clearInterval(inter)
-          //     clearInterval(i);
-          //     videoDom.play();
-          //     await sleep(10 * 1000);
-          //     setShowVideoModal(false);
-
-          //   }
-          // }, 1000);
           const [enVideoRes, videoRes] = await Promise.all([
             axios
               // .post('https://www.coffeebeats.cn/ai/qwen/videoElements', {
@@ -241,11 +246,32 @@ const AutoPlayLesson = (props) => {
           const videoDom = document.querySelector('.iiivideo')
           if (videoDom?.readyState > 0) {
             // 在这里获取时长，不然有可能获取错误的视频时长，获取到的时长是一个string格式，注意格式化
-            // console.log(parseFloat(videoDom.duration, 10), 'videoDom===3333')
-            videoDom.play();
-            await sleep(Number(videoDom.duration) * 1000);
-            // await sleep(1000);
-            // await sleep(1000);
+            console.log(parseFloat(videoDom.duration, 10), 'videoDom===3333')
+
+            // 创建一个Promise来等待视频播放结束
+            const playVideoUntilEnd = (videoElement) => {
+              return new Promise((resolve) => {
+                // 如果当前处于暂停状态，则从记录的时间帧开始播放
+                if (pause && videoCurrentTime > 0) {
+                  videoElement.currentTime = videoCurrentTime;
+                }
+
+                // 设置ended事件监听器
+                videoElement.addEventListener('ended', () => {
+                  console.log('===ended===')
+                  // 视频播放结束，解决Promise
+                  resolve();
+                });
+
+                // 开始播放视频
+                videoElement.play();
+              });
+            };
+
+            // 等待视频播放结束
+            await playVideoUntilEnd(videoDom);
+
+            // 视频播放结束后关闭模态框
             setShowVideoModal(false);
           }
 
@@ -326,10 +352,32 @@ const AutoPlayLesson = (props) => {
           const videoDom = document.querySelector('.iiivideo')
           if (videoDom?.readyState > 0) {
             // 在这里获取时长，不然有可能获取错误的视频时长，获取到的时长是一个string格式，注意格式化
-            videoDom.play();
-            await sleep(Number(videoDom.duration) * 1000);
-            // await sleep(1000);
-            // await sleep(1000);
+            console.log(parseFloat(videoDom.duration, 10), 'videoDom===3333')
+
+            // 创建一个Promise来等待视频播放结束
+            const playVideoUntilEnd = (videoElement) => {
+              return new Promise((resolve) => {
+                // 如果当前处于暂停状态，则从记录的时间帧开始播放
+                if (pause && videoCurrentTime > 0) {
+                  videoElement.currentTime = videoCurrentTime;
+                }
+
+                // 设置ended事件监听器
+                videoElement.addEventListener('ended', () => {
+                  console.log('===ended===')
+                  // 视频播放结束，解决Promise
+                  resolve();
+                });
+
+                // 开始播放视频
+                videoElement.play();
+              });
+            };
+
+            // 等待视频播放结束
+            await playVideoUntilEnd(videoDom);
+
+            // 视频播放结束后关闭模态框
             setShowVideoModal(false);
           }
 
@@ -369,6 +417,7 @@ const AutoPlayLesson = (props) => {
 
   return (
     <div className="destination-list">
+
       <Modal title="素材详情" visible={showImageModal || showVideoModal} onOk={() => {
         setShowImageModal(false)
         setShowVideoModal(false);
@@ -383,14 +432,14 @@ const AutoPlayLesson = (props) => {
         {showVideoModal && <video ref={videoRef} className="iiivideo" controls><source src={currentImage} type='video/mp4' /></video>}
       </Modal>
 
-      <Modal className="gogogo" closable={true}  title="AI助手" visible={showDiaModal} onOk={() => {
+      <Modal className="gogogo" closable={true} title="AI助手" visible={showDiaModal} onOk={() => {
         setShowDiaModal(false);
-      }}  onClose={() => {
+      }} onClose={() => {
         setShowDiaModal(false);
       }}>
         <TravelPage />
       </Modal>
-      { isModalOpen ? <Modal title="素材详情" visible={isModalOpen} onOk={() => {
+      {isModalOpen ? <Modal title="素材详情" visible={isModalOpen} onOk={() => {
         setIsModalOpen(true);
       }} onCancel={() => {
         setIsModalOpen(false);
@@ -403,9 +452,9 @@ const AutoPlayLesson = (props) => {
         }}>新开页面查看</span>
         <div className="modalWrap">
           {/* <img src={openingUrl} /> */}
-          { chosenType === 2 ? <img src={openingUrl} /> : <video controls>
+          {chosenType === 2 ? <img src={openingUrl} /> : <video controls>
             <source src={openingUrl} type="video/mp4" />
-          </video> }
+          </video>}
         </div>
       </Modal> : null}
       {lessonData && lessonData.map((item, index) => {
@@ -537,6 +586,11 @@ const AutoPlayLesson = (props) => {
       <div className='caozuolanWrap'>
         <div className="caozuolan">
           <div className="caozuolanWrapperV2">
+
+            <VideoDownload
+              videoLinks={videoData}
+            />
+
             <div className="title" style={{ textDecoration: 'underline', marginBottom: '6px', color: '#1677ff', fontSize: '16px', cursor: "pointer" }} onClick={toggleAiDialog}>AI对答</div>
             {/* 开始和暂停按钮 */}
             {!startLesson ? (
@@ -549,18 +603,35 @@ const AutoPlayLesson = (props) => {
               pause ? (
                 <Button type="primary" onClick={() => {
                   setShowPause(false);
+                  // 在继续播放视频时使用记录的视频时间帧
+                  const videoElement = document.querySelector('.iiivideo');
+                  if (videoElement) {
+                    videoElement.currentTime = videoCurrentTime;
+                    videoElement.play();
+                  }
                   resumePlayLesson(lessonData);
                   setPause(false);
                 }}>继续播放</Button>
               ) : (
-                  <Button type="primary" onClick={() => {
-                    window.currentPlayIndex = currentPlayIndex;
-                    const audioElement = document.getElementById("audioId");
-                    if (audioElement && !audioElement.paused) {
-                      audioElement.pause();
+                <Button type="primary" onClick={() => {
+                  window.currentPlayIndex = currentPlayIndex;
+                  const audioElement = document.getElementById("audioId");
+                  if (audioElement && !audioElement.paused) {
+                    audioElement.pause();
+                  }
+                  // 检查当前播放的内容是否为视频
+                  const currentItem = lessonData[currentPlayIndex];
+                  if (currentItem && currentItem.type === 3) { // 3 表示视频
+                    const videoElement = document.querySelector('.iiivideo');
+                    if (videoElement && !videoElement.paused) {
+                      // 记录视频的当前时间
+                      setVideoCurrentTime(videoElement.currentTime);
+                      // 暂停视频
+                      videoElement.pause();
                     }
-                    setPause(true);
-                  }}>暂停播放</Button>
+                  }
+                  setPause(true);
+                }}>暂停播放</Button>
               )
             )}
           </div>
